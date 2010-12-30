@@ -41,7 +41,7 @@ public class ClearRouteTaskMessage extends PoliceForceTaskMessage {
 			EntityID destination) {
 		super(BaseMessageType.CLEAR_ROUTE, time, pfID);
 		super.setData(new EntityIDData(DataType.AREA, departure), 0);
-		super.setData(new EntityIDData(DataType.AREA, destination), 0);
+		super.setData(new EntityIDData(DataType.AREA, destination), 1);
 	}
 
 	/**
