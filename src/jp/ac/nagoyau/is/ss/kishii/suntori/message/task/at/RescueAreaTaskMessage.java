@@ -24,19 +24,23 @@ public class RescueAreaTaskMessage extends AmbulanceTeamTaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>atID:救急隊のEntityID</li>
 	 * <li>areas:捜索対象となるエリアのEntityID列</li>
 	 * </ul>
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param atID
 	 *            救助隊のEntityID
 	 * @param areas
 	 *            エリアのEntityID列
 	 */
-	public RescueAreaTaskMessage(int time, EntityID atID, EntityID... areas) {
-		this(time, atID, Arrays.asList(areas));
+	public RescueAreaTaskMessage(int time, EntityID ownerID, EntityID atID,
+			EntityID... areas) {
+		this(time, ownerID, atID, Arrays.asList(areas));
 	}
 
 	/**
@@ -45,19 +49,23 @@ public class RescueAreaTaskMessage extends AmbulanceTeamTaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>atID:救急隊のEntityID</li>
 	 * <li>areas:捜索対象となるエリアのEntityID列</li>
 	 * </ul>
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param atID
 	 *            救助隊のEntityID
 	 * @param areas
 	 *            エリアのEntityIDリスト
 	 */
-	public RescueAreaTaskMessage(int time, EntityID atID, List<EntityID> areas) {
-		super(BaseMessageType.RESCUE_AREA, time, atID);
+	public RescueAreaTaskMessage(int time, EntityID ownerID, EntityID atID,
+			List<EntityID> areas) {
+		super(BaseMessageType.RESCUE_AREA, time, ownerID, atID);
 		this.setData(new EntityIDListData(DataType.AREA_LIST, areas));
 	}
 

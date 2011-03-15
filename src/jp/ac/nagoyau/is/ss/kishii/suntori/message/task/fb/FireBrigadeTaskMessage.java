@@ -22,6 +22,7 @@ public abstract class FireBrigadeTaskMessage extends TaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>fbID:消防隊のEntityID</li>
 	 * </ul>
 	 * 
@@ -29,8 +30,9 @@ public abstract class FireBrigadeTaskMessage extends TaskMessage {
 	 * @param time
 	 * @param atID
 	 */
-	public FireBrigadeTaskMessage(BaseMessageType type, int time, EntityID fbID) {
-		super(type, time);
+	public FireBrigadeTaskMessage(BaseMessageType type, int time,
+			EntityID ownerID, EntityID fbID) {
+		super(type, time, ownerID);
 		// this.setData(new ValueData(DataType.POLICE_FORCE, fbID.getValue()));
 		this.setData(new EntityIDData(DataType.FIRE_BRIGADE, fbID));
 	}

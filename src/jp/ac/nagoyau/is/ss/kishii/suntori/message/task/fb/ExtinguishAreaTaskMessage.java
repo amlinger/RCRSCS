@@ -23,12 +23,15 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>fbID:消防隊のEntityID</li>
 	 * <li>areas:消火活動対象となるエリアのEntityID列</li>
 	 * </ul>
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param fbID
 	 *            消防隊のEntityID
 	 * @param areas
@@ -41,8 +44,9 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	 * @param areas
 	 *            消火活動対象となるエリアのEntityID列
 	 */
-	public ExtinguishAreaTaskMessage(int time, EntityID fbID, EntityID... areas) {
-		this(time, fbID, Arrays.asList(areas));
+	public ExtinguishAreaTaskMessage(int time, EntityID ownerID, EntityID fbID,
+			EntityID... areas) {
+		this(time, ownerID, fbID, Arrays.asList(areas));
 	}
 
 	/**
@@ -51,12 +55,15 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>fbID:消防隊のEntityID</li>
 	 * <li>areas:消火活動対象となるエリアのEntityID列</li>
 	 * </ul>
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param fbID
 	 *            消防隊のEntityID
 	 * @param areas
@@ -70,9 +77,9 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	 * @param areas
 	 *            消火活動対象となるエリアのEntityIDリスト
 	 */
-	public ExtinguishAreaTaskMessage(int time, EntityID fbID,
+	public ExtinguishAreaTaskMessage(int time, EntityID ownerID, EntityID fbID,
 			List<EntityID> areas) {
-		super(BaseMessageType.EXTINGUISH_AREA, time, fbID);
+		super(BaseMessageType.EXTINGUISH_AREA, time, ownerID, fbID);
 		super.setData(new EntityIDListData(DataType.AREA_LIST, areas));
 	}
 

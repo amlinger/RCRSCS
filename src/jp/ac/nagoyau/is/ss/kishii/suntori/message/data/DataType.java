@@ -42,6 +42,10 @@ public enum DataType {
 
 	PLATOON_AGENT,
 
+	FIRE_STATION, AMBULANCE_CENTER, POLICE_OFFICE,
+
+	CENTER_AGENT, RESCUE_AGENT,
+
 	HP, DAMAGE, BURIEDNESS, FIERYNESS, WATER_POWER, SUPPLY_QUANTITY, REPAIR_COST, BROKENNESS, WATER,
 	// list type
 	ID_LIST, AREA_LIST;
@@ -73,6 +77,8 @@ public enum DataType {
 		case AMBULANCE_TEAM:
 		case POLICE_FORCE:
 		case PLATOON_AGENT:
+		case CENTER_AGENT:
+		case RESCUE_AGENT:
 			res = new EntityIDData(type, new EntityID(value));
 		default:
 		}

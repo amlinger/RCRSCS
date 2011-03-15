@@ -22,6 +22,7 @@ public class ClearRouteTaskMessage extends PoliceForceTaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>pfID:啓開隊のEntityID</li>
 	 * <li>departure:経路の出発地点</li>
 	 * <li>destination:経路の目標地点</li>
@@ -30,6 +31,8 @@ public class ClearRouteTaskMessage extends PoliceForceTaskMessage {
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param pfID
 	 *            啓開隊のEntityID
 	 * @param departure
@@ -37,11 +40,11 @@ public class ClearRouteTaskMessage extends PoliceForceTaskMessage {
 	 * @param destination
 	 *            目標エリアのEntityID
 	 */
-	public ClearRouteTaskMessage(int time, EntityID pfID, EntityID departure,
-			EntityID destination) {
-		super(BaseMessageType.CLEAR_ROUTE, time, pfID);
+	public ClearRouteTaskMessage(int time, EntityID ownerID, EntityID pfID,
+			EntityID departure, EntityID destination) {
+		super(BaseMessageType.CLEAR_ROUTE, time, ownerID, pfID);
 		super.setData(new EntityIDData(DataType.AREA, departure), 0);
-		super.setData(new EntityIDData(DataType.AREA, destination), 1);
+		super.setData(new EntityIDData(DataType.AREA, destination), 0);
 	}
 
 	/**

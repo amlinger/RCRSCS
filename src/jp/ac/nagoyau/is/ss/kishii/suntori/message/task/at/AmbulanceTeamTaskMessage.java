@@ -22,6 +22,7 @@ public abstract class AmbulanceTeamTaskMessage extends TaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>atID:救急隊のEntityID</li>
 	 * </ul>
 	 * 
@@ -30,8 +31,8 @@ public abstract class AmbulanceTeamTaskMessage extends TaskMessage {
 	 * @param atID
 	 */
 	public AmbulanceTeamTaskMessage(BaseMessageType type, int time,
-			EntityID atID) {
-		super(type, time);
+			EntityID ownerID, EntityID atID) {
+		super(type, time, ownerID);
 		this.setData(new EntityIDData(DataType.AMBULANCE_TEAM, atID));
 	}
 

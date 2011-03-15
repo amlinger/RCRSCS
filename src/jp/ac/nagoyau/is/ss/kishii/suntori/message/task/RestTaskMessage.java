@@ -25,16 +25,19 @@ public class RestTaskMessage extends TaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>targetAgentID:救助隊のEntityID</li>
 	 * </ul>
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param targetAgentID
 	 *            救助隊のEntityID
 	 */
-	public RestTaskMessage(int time, EntityID targetAgentID) {
-		super(BaseMessageType.REST_TASK, time);
+	public RestTaskMessage(int time, EntityID ownerID, EntityID targetAgentID) {
+		super(BaseMessageType.REST_TASK, time, ownerID);
 		// this.setData(new ValueData(DataType.PLATOON_AGENT,
 		// targetAgentID.getValue()));
 		this.setData(new EntityIDData(DataType.PLATOON_AGENT, targetAgentID));

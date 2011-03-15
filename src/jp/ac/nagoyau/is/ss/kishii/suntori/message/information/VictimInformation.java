@@ -99,7 +99,7 @@ public class VictimInformation extends WorldInformation {
 		// this.setData(new ValueData(DataType.HUMAN, vicID.getValue()));
 		this.setData(new EntityIDData(DataType.HUMAN, vicID));
 		// this.setData(new ValueData(DataType.AREA, area.getValue()));
-		this.setData(new EntityIDData(DataType.AREA, area));
+		this.setData(new EntityIDData(DataType.HUMAN, area));
 		this.setData(new ValueData(DataType.HP, hp));
 		this.setData(new ValueData(DataType.BURIEDNESS, buriedness));
 		this.setData(new ValueData(DataType.DAMAGE, damage));
