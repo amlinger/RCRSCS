@@ -23,10 +23,17 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveWithStagingPostTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.RestAtRefugeTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.RestTaskMessage;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.TaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.at.RescueAreaTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.fb.ExtinguishAreaTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.pf.ClearRouteTaskMessage;
 import rescuecore2.config.Config;
+import rescuecore2.standard.entities.AmbulanceCentre;
+import rescuecore2.standard.entities.AmbulanceTeam;
+import rescuecore2.standard.entities.FireBrigade;
+import rescuecore2.standard.entities.FireStation;
+import rescuecore2.standard.entities.PoliceForce;
+import rescuecore2.standard.entities.PoliceOffice;
 import rescuecore2.standard.entities.StandardEntity;
 import rescuecore2.standard.entities.StandardEntityURN;
 import rescuecore2.standard.entities.StandardWorldModel;
@@ -50,6 +57,19 @@ public class RCRSCSMessageConverter {
 	private List<EntityID> fireBrigadeList;
 	private List<EntityID> platoonAgentList;
 
+	private List<EntityID> policeOfficeList;
+	private List<EntityID> fireStationList;
+	private List<EntityID> ambulanceCenterList;
+
+	private List<EntityID> centerList;
+	private List<EntityID> rescueList;
+
+	private EntityID ownerID;
+	/**
+	 * コンバータ使用者のエージェントの種類を表す．
+	 */
+	private DataType agentType;
+
 	private final int messageKind;
 	private EnumMap<DataType, Integer> dataBitSizeMap;
 	private EnumMap<BaseMessageType, Integer> messageMininumSizeMap;
@@ -71,6 +91,8 @@ public class RCRSCSMessageConverter {
 	 * ただ，こちらを使ったとき，必要な情報が足りない場合，コンバート時にExceptionを吐く可能性があります．
 	 * </p>
 	 * 
+	 * @param ownerID
+	 *            メッセージコンバータ使用者のEntityID
 	 * @param config
 	 *            rescuecore2.config.Configクラス
 	 * @param buildingList
@@ -91,12 +113,15 @@ public class RCRSCSMessageConverter {
 	 * @param platoonAgentList
 	 *            救助隊のリスト(啓開，救急，消防)
 	 */
-	public RCRSCSMessageConverter(Config config, List<EntityID> buildingList,
-			List<EntityID> roadList, List<EntityID> refugeList,
-			List<EntityID> areaList, List<EntityID> policeForceList,
-			List<EntityID> ambulanceTeamList, List<EntityID> fireBrigadeList,
-			List<EntityID> platoonAgentList) {
+	public RCRSCSMessageConverter(EntityID ownerID, Config config,
+			List<EntityID> buildingList, List<EntityID> roadList,
+			List<EntityID> refugeList, List<EntityID> areaList,
+			List<EntityID> policeForceList, List<EntityID> ambulanceTeamList,
+			List<EntityID> fireBrigadeList, List<EntityID> platoonAgentList,
+			List<EntityID> policeOfficeList,
+			List<EntityID> ambulanceCenterList, List<EntityID> fireStationList) {
 		super();
+		this.ownerID = ownerID;
 		this.buildingList = buildingList;
 		this.roadList = roadList;
 		this.refugeList = refugeList;
@@ -106,6 +131,20 @@ public class RCRSCSMessageConverter {
 		this.fireBrigadeList = fireBrigadeList;
 		this.platoonAgentList = platoonAgentList;
 
+		this.policeOfficeList = policeOfficeList;
+		this.ambulanceCenterList = ambulanceCenterList;
+		this.fireStationList = fireStationList;
+		this.centerList = new ArrayList<EntityID>();
+		this.centerList.addAll(policeOfficeList);
+		this.centerList.addAll(ambulanceCenterList);
+		this.centerList.addAll(fireBrigadeList);
+		this.rescueList = new ArrayList<EntityID>();
+		this.rescueList.addAll(platoonAgentList);
+		this.rescueList.addAll(centerList);
+		EntityIDComparator comp = new EntityIDComparator();
+		Collections.sort(this.centerList, comp);
+		Collections.sort(this.rescueList, comp);
+		this.checkAgentType();
 		this.EXTINGUISHABLE_POWER = config.getIntValue(
 				"fire.extinguish.max-sum", 500);
 		this.EXTINGUISHABLE_DISTANCE = config.getIntValue(
@@ -128,10 +167,15 @@ public class RCRSCSMessageConverter {
 	 * コンストラクタ<br>
 	 * 通常使用するにはこちらのコンストラクタを使用してください．
 	 * 
+	 * @param ownerID
+	 *            メッセージコンバータ使用者のEntityID
 	 * @param model
 	 * @param config
 	 */
-	public RCRSCSMessageConverter(StandardWorldModel model, Config config) {
+	public RCRSCSMessageConverter(EntityID ownerID, StandardWorldModel model,
+			Config config) {
+		this.ownerID = ownerID;
+		this.checkAgentType(model.getEntity(ownerID));
 		EntityIDComparator comp = new EntityIDComparator();
 		this.buildingList = getIDList(model, comp, StandardEntityURN.BUILDING,
 				StandardEntityURN.REFUGE, StandardEntityURN.AMBULANCE_CENTRE,
@@ -152,6 +196,23 @@ public class RCRSCSMessageConverter {
 				StandardEntityURN.POLICE_FORCE,
 				StandardEntityURN.AMBULANCE_TEAM,
 				StandardEntityURN.FIRE_BRIGADE);
+		this.policeOfficeList = getIDList(model, comp,
+				StandardEntityURN.POLICE_OFFICE);
+		this.ambulanceCenterList = getIDList(model, comp,
+				StandardEntityURN.AMBULANCE_CENTRE);
+		this.fireStationList = getIDList(model, comp,
+				StandardEntityURN.FIRE_STATION);
+		this.centerList = getIDList(model, comp,
+				StandardEntityURN.POLICE_OFFICE,
+				StandardEntityURN.AMBULANCE_CENTRE,
+				StandardEntityURN.FIRE_STATION);
+		this.rescueList = getIDList(model, comp,
+				StandardEntityURN.POLICE_FORCE,
+				StandardEntityURN.AMBULANCE_TEAM,
+				StandardEntityURN.FIRE_BRIGADE,
+				StandardEntityURN.POLICE_OFFICE,
+				StandardEntityURN.AMBULANCE_CENTRE,
+				StandardEntityURN.FIRE_STATION);
 
 		this.EXTINGUISHABLE_POWER = config.getIntValue(
 				"fire.extinguish.max-sum", 500);
@@ -175,6 +236,103 @@ public class RCRSCSMessageConverter {
 			}
 			System.out.println("refuge size :"
 					+ model.getEntitiesOfType(StandardEntityURN.REFUGE).size());
+		}
+	}
+
+	/**
+	 * コンバータ使用者のエージェントの種類を調べる．<br>
+	 * 何も引数のない場合は各EntityIDのリストから推測する．
+	 */
+	private void checkAgentType() {
+		this.agentType = DataType.HUMAN;
+		if (this.ambulanceTeamList.contains(this.ownerID)) {
+			this.agentType = DataType.AMBULANCE_TEAM;
+		} else if (this.fireBrigadeList.contains(this.ownerID)) {
+			this.agentType = DataType.FIRE_BRIGADE;
+		} else if (this.policeForceList.contains(this.ownerID)) {
+			this.agentType = DataType.POLICE_FORCE;
+		} else if (this.ambulanceCenterList.contains(this.ownerID)) {
+			this.agentType = DataType.AMBULANCE_CENTER;
+		} else if (this.fireStationList.contains(this.ownerID)) {
+			this.agentType = DataType.FIRE_STATION;
+		} else if (this.policeOfficeList.contains(this.ownerID)) {
+			this.agentType = DataType.POLICE_OFFICE;
+		}
+	}
+
+	/**
+	 * 与えられたEntityIDを持つエージェントの種類を取得する．<br>
+	 */
+	private DataType getAgentType(EntityID id) {
+		DataType res = null;
+		if (this.ambulanceTeamList.contains(id)) {
+			res = DataType.AMBULANCE_TEAM;
+		} else if (this.fireBrigadeList.contains(id)) {
+			res = DataType.FIRE_BRIGADE;
+		} else if (this.policeForceList.contains(id)) {
+			res = DataType.POLICE_FORCE;
+		} else if (this.ambulanceCenterList.contains(id)) {
+			res = DataType.AMBULANCE_CENTER;
+		} else if (this.fireStationList.contains(id)) {
+			res = DataType.FIRE_STATION;
+		} else if (this.policeOfficeList.contains(id)) {
+			res = DataType.POLICE_OFFICE;
+		}
+		return res;
+	}
+
+	/**
+	 * 与えられたEntityIDを持つエージェントがセンターであるかどうかを取得する．
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private boolean isCenter(EntityID id) {
+		return this.centerList.contains(id);
+	}
+
+	/**
+	 * 与えられたEntityIDを持つエージェントが救助エージェントであるかどうかを取得する．
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private boolean isPlatoon(EntityID id) {
+		return this.platoonAgentList.contains(id);
+	}
+
+	private boolean isBelong(DataType center, DataType agent) {
+		boolean res = false;
+		if (agent.equals(DataType.AMBULANCE_TEAM)
+				&& center.equals(DataType.AMBULANCE_CENTER)) {
+			res = true;
+		} else if (agent.equals(DataType.FIRE_BRIGADE)
+				&& center.equals(DataType.FIRE_STATION)) {
+			res = true;
+		} else if (agent.equals(DataType.POLICE_FORCE)
+				&& center.equals(DataType.POLICE_OFFICE)) {
+			res = true;
+		}
+		return res;
+	}
+
+	/**
+	 * コンバータ使用者のエージェントの種類を調べる．
+	 */
+	private void checkAgentType(StandardEntity se) {
+		this.agentType = DataType.HUMAN;
+		if (se instanceof AmbulanceTeam) {
+			this.agentType = DataType.AMBULANCE_TEAM;
+		} else if (se instanceof FireBrigade) {
+			this.agentType = DataType.FIRE_BRIGADE;
+		} else if (se instanceof PoliceForce) {
+			this.agentType = DataType.POLICE_FORCE;
+		} else if (se instanceof AmbulanceCentre) {
+			this.agentType = DataType.AMBULANCE_CENTER;
+		} else if (se instanceof FireStation) {
+			this.agentType = DataType.FIRE_STATION;
+		} else if (se instanceof PoliceOffice) {
+			this.agentType = DataType.POLICE_OFFICE;
 		}
 	}
 
@@ -228,6 +386,10 @@ public class RCRSCSMessageConverter {
 				calculateBitSize(this.policeForceList.size()));
 		this.dataBitSizeMap.put(DataType.PLATOON_AGENT,
 				calculateBitSize(this.platoonAgentList.size()));
+		this.dataBitSizeMap.put(DataType.CENTER_AGENT,
+				calculateBitSize(this.centerList.size()));
+		this.dataBitSizeMap.put(DataType.RESCUE_AGENT,
+				calculateBitSize(this.rescueList.size()));
 		// value
 		this.dataBitSizeMap.put(DataType.HP,
 				calculateBitSize((10000 / this.HP_PERCEPTION_LOS) + 1));
@@ -280,6 +442,7 @@ public class RCRSCSMessageConverter {
 
 	private List<RCRSCSMessage> bitToMessages(List<Integer> bitList) {
 		List<RCRSCSMessage> res = new ArrayList<RCRSCSMessage>();
+		List<TaskMessage> taskList = new ArrayList<TaskMessage>();
 		if (debug) {
 			System.out.println("-----------byte to message---------------");
 		}
@@ -418,7 +581,14 @@ public class RCRSCSMessageConverter {
 					RCRSCSData<?> messageData = message.getData(dt, i);
 					convertToRealData(messageData);
 				}
-				res.add(message);
+				if (message instanceof TaskMessage) {
+					TaskMessage task = (TaskMessage) message;
+					if (task.getAssignedAgentID().equals(this.ownerID)) {
+						taskList.add(task);
+					}
+				} else {
+					res.add(message);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err
@@ -426,8 +596,53 @@ public class RCRSCSMessageConverter {
 				break;
 			}
 		}
+		TaskMessage task = filteringTask(taskList);
+		if (task != null) {
+			res.add(task);
+		}
 		if (debug) {
 			System.out.println("-----------------------------------------");
+		}
+		return res;
+	}
+
+	/**
+	 * タスクのフィルタリング<br>
+	 * フィルタリングの基準は以下のよう．<br>
+	 * 1.タスクがセンターから送られたものかどうか． <br>
+	 * 2.１が真のとき，自分の直属のセンターから送られたものかどうか．<br>
+	 * 3.１が偽のとき，自分と同じ種類のエージェントから送られたものかどうか．<br>
+	 * 4.３が偽のとき，返り値がnullかどうか．<br>
+	 * これらに従って返り値となるTaskMessageが決定される．
+	 * 
+	 * @param taskList
+	 * @return
+	 */
+	private TaskMessage filteringTask(List<TaskMessage> taskList) {
+		TaskMessage res = null;
+		DataType currentType = null;
+		for (TaskMessage task : taskList) {
+			EntityID id = task.getMessageOwnerID();
+			DataType type = this.getAgentType(id);
+			if (type != null) {
+				if (this.isCenter(id)) {
+					if (this.isBelong(type, this.agentType)) {
+						res = task;
+						break;
+					} else if (res == null || currentType == null
+							|| !currentType.equals(DataType.CENTER_AGENT)) {
+						res = task;
+						currentType = DataType.CENTER_AGENT;
+					}
+				} else if (this.agentType.equals(type) && currentType != null
+						&& !this.agentType.equals(currentType)) {
+					res = task;
+					currentType = type;
+				} else if (res == null) {
+					res = task;
+					currentType = type;
+				}
+			}
 		}
 		return res;
 	}
@@ -459,6 +674,14 @@ public class RCRSCSMessageConverter {
 				break;
 			case PLATOON_AGENT:
 				((EntityIDData) messageData).setData(this.platoonAgentList
+						.get(((EntityID) messageData.getData()).getValue()));
+				break;
+			case CENTER_AGENT:
+				((EntityIDData) messageData).setData(this.centerList
+						.get(((EntityID) messageData.getData()).getValue()));
+				break;
+			case RESCUE_AGENT:
+				((EntityIDData) messageData).setData(this.rescueList
 						.get(((EntityID) messageData.getData()).getValue()));
 				break;
 			case AREA:
@@ -662,6 +885,12 @@ public class RCRSCSMessageConverter {
 				break;
 			case PLATOON_AGENT:
 				res = this.platoonAgentList.indexOf((EntityID) data.getData());
+				break;
+			case CENTER_AGENT:
+				res = this.centerList.indexOf((EntityID) data.getData());
+				break;
+			case RESCUE_AGENT:
+				res = this.rescueList.indexOf((EntityID) data.getData());
 				break;
 			case AREA:
 				res = this.areaList.indexOf((EntityID) data.getData());

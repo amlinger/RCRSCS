@@ -6,6 +6,7 @@ import java.util.List;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.BaseMessageType;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.RCRSCSMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.EntityIDData;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.EntityIDListData;
 import rescuecore2.worldmodel.EntityID;
 
@@ -22,9 +23,11 @@ public abstract class TaskMessage extends RCRSCSMessage implements ITaskMessage 
 	 * 
 	 * @param type
 	 * @param time
+	 * @param ownerID
 	 */
-	public TaskMessage(BaseMessageType type, int time) {
+	public TaskMessage(BaseMessageType type, int time, EntityID ownerID) {
 		super(type, time);
+		this.setData(new EntityIDData(DataType.RESCUE_AGENT, ownerID));
 	}
 
 	/**
@@ -53,4 +56,12 @@ public abstract class TaskMessage extends RCRSCSMessage implements ITaskMessage 
 		return super.getID(DataType.PLATOON_AGENT, 0);
 	}
 
+	/**
+	 * メッセージ送信者のEntityIDを取得します．
+	 * 
+	 * @return　メッセージ送信者のEntityID
+	 */
+	public EntityID getMessageOwnerID() {
+		return super.getID(DataType.RESCUE_AGENT, 0);
+	}
 }

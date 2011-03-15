@@ -108,40 +108,42 @@ public enum BaseMessageType {
 	/**
 	 * rest task
 	 */
-	REST_TASK(new DataType[] { DataType.PLATOON_AGENT }),
+	REST_TASK(new DataType[] { DataType.RESCUE_AGENT, DataType.PLATOON_AGENT }),
 	/**
 			 * 
 			 */
-	REST_AT_REFUGE_TASK(new DataType[] { DataType.PLATOON_AGENT,
-			DataType.REFUGE }),
+	REST_AT_REFUGE_TASK(new DataType[] { DataType.RESCUE_AGENT,
+			DataType.PLATOON_AGENT, DataType.REFUGE }),
 	/**
 	 * move task
 	 */
-	MOVE_TASK(new DataType[] { DataType.PLATOON_AGENT, DataType.AREA }),
+	MOVE_TASK(new DataType[] { DataType.RESCUE_AGENT, DataType.PLATOON_AGENT,
+			DataType.AREA }),
 	/**
 	 * move with staging post task
 	 */
-	MOVE_WITH_STAGING_POST_TASK(new DataType[] { DataType.PLATOON_AGENT,
-			DataType.AREA, DataType.AREA_LIST }),
+	MOVE_WITH_STAGING_POST_TASK(new DataType[] { DataType.RESCUE_AGENT,
+			DataType.PLATOON_AGENT, DataType.AREA, DataType.AREA_LIST }),
 
 	// Task Message
 	// Police Force Task
 	/**
 	 * clear route(ex. ensure a route from A to B )
 	 */
-	CLEAR_ROUTE(new DataType[] { DataType.POLICE_FORCE, DataType.AREA,
-			DataType.AREA }),
+	CLEAR_ROUTE(new DataType[] { DataType.RESCUE_AGENT, DataType.POLICE_FORCE,
+			DataType.AREA, DataType.AREA }),
 	// Ambulance Team Task
 	/**
 	 * rescue area task(area : collection of entity.Area)
 	 */
-	RESCUE_AREA(new DataType[] { DataType.AMBULANCE_TEAM, DataType.AREA_LIST }),
+	RESCUE_AREA(new DataType[] { DataType.RESCUE_AGENT,
+			DataType.AMBULANCE_TEAM, DataType.AREA_LIST }),
 	// Fire Brigade Task
 	/**
 	 * extinguish area task
 	 */
-	EXTINGUISH_AREA(
-			new DataType[] { DataType.FIRE_BRIGADE, DataType.AREA_LIST }),
+	EXTINGUISH_AREA(new DataType[] { DataType.RESCUE_AGENT,
+			DataType.FIRE_BRIGADE, DataType.AREA_LIST }),
 
 	// Report Message
 	/**

@@ -18,8 +18,7 @@ import rescuecore2.standard.messages.AKSpeak;
  * 
  * @param <E>
  */
-public abstract class RCRSCSAgent<E extends StandardEntity> extends
-		StandardAgent<E> {
+abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	RCRSCSMessageConverter messageConverter;
 	private List<RCRSCSMessage> messageList;
 	protected List<RCRSCSMessage> receivedMessageList;
@@ -37,8 +36,8 @@ public abstract class RCRSCSAgent<E extends StandardEntity> extends
 	@Override
 	protected void postConnect() {
 		super.postConnect();
-		this.messageConverter = new RCRSCSMessageConverter(this.model,
-				this.config);
+		this.messageConverter = new RCRSCSMessageConverter(me().getID(),
+				this.model, this.config);
 	}
 
 	/**
@@ -67,7 +66,7 @@ public abstract class RCRSCSAgent<E extends StandardEntity> extends
 	 * @param heard
 	 */
 	protected final void receiveMessage(Collection<Command> heard) {
-		this.receivedMessageList.clear();
+		this.receivedMessageList = new ArrayList<RCRSCSMessage>();
 		for (Command command : heard) {
 			if (command instanceof AKSpeak) {
 				AKSpeak speak = (AKSpeak) command;

@@ -26,7 +26,8 @@ public abstract class AbstractCSAgent<E extends StandardEntity> extends
 	/**
 	 * 各ステップの最初に受信したデータの中で，チャンネルがメッセージ受信チャンネルであるものをコンバートしています．
 	 */
-	protected void think(int time, ChangeSet changed, Collection<Command> heard) {
+	protected final void think(int time, ChangeSet changed,
+			Collection<Command> heard) {
 		super.receiveMessage(heard);
 		this.thinking(time, changed, heard);
 	}

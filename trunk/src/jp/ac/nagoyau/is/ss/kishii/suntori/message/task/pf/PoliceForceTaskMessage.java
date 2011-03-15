@@ -22,6 +22,7 @@ public abstract class PoliceForceTaskMessage extends TaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>fbID:啓開隊のEntityID</li>
 	 * </ul>
 	 * 
@@ -29,8 +30,9 @@ public abstract class PoliceForceTaskMessage extends TaskMessage {
 	 * @param time
 	 * @param pfID
 	 */
-	public PoliceForceTaskMessage(BaseMessageType type, int time, EntityID pfID) {
-		super(type, time);
+	public PoliceForceTaskMessage(BaseMessageType type, int time,
+			EntityID ownerID, EntityID pfID) {
+		super(type, time, ownerID);
 		// this.setData(new ValueData(DataType.POLICE_FORCE, pfID.getValue()));
 		this.setData(new EntityIDData(DataType.POLICE_FORCE, pfID));
 	}

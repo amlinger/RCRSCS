@@ -26,20 +26,23 @@ public class RestAtRefugeTaskMessage extends TaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>targetAgentID:救助隊のEntityID</li>
 	 * <li>refugeID:避難所のEntityID</li>
 	 * </ul>
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param targetAgentID
 	 *            救助隊のEntityID
 	 * @param refugeID
 	 *            避難所のEntityID
 	 */
-	public RestAtRefugeTaskMessage(int time, EntityID targetAgentID,
-			EntityID refugeID) {
-		super(BaseMessageType.REST_AT_REFUGE_TASK, time);
+	public RestAtRefugeTaskMessage(int time, EntityID ownerID,
+			EntityID targetAgentID, EntityID refugeID) {
+		super(BaseMessageType.REST_AT_REFUGE_TASK, time, ownerID);
 		// this.setData(new ValueData(DataType.PLATOON_AGENT,
 		// targetAgentID.getValue()));
 		this.setData(new EntityIDData(DataType.PLATOON_AGENT, targetAgentID));

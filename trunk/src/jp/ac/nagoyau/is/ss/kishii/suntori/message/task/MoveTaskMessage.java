@@ -25,19 +25,23 @@ public class MoveTaskMessage extends TaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>targetAgentID:救助隊のEntityID</li>
 	 * <li>destAreaID:目的エリアのEntityID</li>
 	 * </ul>
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param targetAgentID
 	 *            救助隊のEntityID
 	 * @param destAreaID
 	 *            目的エリアのEntityID
 	 */
-	public MoveTaskMessage(int time, EntityID targetAgentID, EntityID destAreaID) {
-		super(BaseMessageType.MOVE_TASK, time);
+	public MoveTaskMessage(int time, EntityID ownerID, EntityID targetAgentID,
+			EntityID destAreaID) {
+		super(BaseMessageType.MOVE_TASK, time, ownerID);
 		this.setData(new EntityIDData(DataType.PLATOON_AGENT, targetAgentID));
 		// this.setData(new ValueData(DataType.AREA, destAreaID.getValue()));
 		this.setData(new EntityIDData(DataType.AREA, destAreaID));

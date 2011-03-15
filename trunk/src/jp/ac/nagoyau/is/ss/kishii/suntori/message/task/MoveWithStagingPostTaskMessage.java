@@ -26,6 +26,7 @@ public class MoveWithStagingPostTaskMessage extends TaskMessage {
 	 * 含まれる情報は以下のものです．
 	 * <ul>
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
+	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>targetAgentID:救助隊のEntityID</li>
 	 * <li>destAreaID:目的エリアのEntityID</li>
 	 * <li>stagingPointList:中継エリアのEntityID列</li>
@@ -33,6 +34,8 @@ public class MoveWithStagingPostTaskMessage extends TaskMessage {
 	 * 
 	 * @param time
 	 *            ステップ数
+	 * @param ownerID
+	 *            メッセージ送信者のEntityID
 	 * @param targetAgentID
 	 *            救助隊のEntityID
 	 * @param destAreaID
@@ -40,9 +43,10 @@ public class MoveWithStagingPostTaskMessage extends TaskMessage {
 	 * @param stagingPointList
 	 *            中継エリアのEntityIDリスト
 	 */
-	public MoveWithStagingPostTaskMessage(int time, EntityID targetAgentID,
-			EntityID destAreaID, List<EntityID> stagingPointList) {
-		super(BaseMessageType.MOVE_WITH_STAGING_POST_TASK, time);
+	public MoveWithStagingPostTaskMessage(int time, EntityID ownerID,
+			EntityID targetAgentID, EntityID destAreaID,
+			List<EntityID> stagingPointList) {
+		super(BaseMessageType.MOVE_WITH_STAGING_POST_TASK, time, ownerID);
 		// this.setData(new ValueData(DataType.PLATOON_AGENT,
 		// targetAgentID.getValue()));
 		this.setData(new EntityIDData(DataType.PLATOON_AGENT, targetAgentID));
