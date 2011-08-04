@@ -18,15 +18,19 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.FireBrigadeInforma
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.PoliceForceInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.PositionInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.TransferInformation;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.UnpassableInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.VictimInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveWithStagingPostTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.RestAtRefugeTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.RestTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.TaskMessage;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.at.AmbulanceTeamTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.at.RescueAreaTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.fb.ExtinguishAreaTaskMessage;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.fb.FireBrigadeTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.pf.ClearRouteTaskMessage;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.pf.PoliceForceTaskMessage;
 import rescuecore2.config.Config;
 import rescuecore2.standard.entities.AmbulanceCentre;
 import rescuecore2.standard.entities.AmbulanceTeam;
@@ -41,7 +45,8 @@ import rescuecore2.standard.entities.StandardEntityConstants.Fieryness;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * メッセージ変換クラスです．
+ * メッセージ変換クラスです．<br>
+ * The RCRSCSMessageConverter convert messages to bytes, and bytes to messages.
  * 
  * @author takefumi
  * 
@@ -84,12 +89,14 @@ public class RCRSCSMessageConverter {
 
 	private static final boolean debug = false;
 
+	@Deprecated
 	/**
 	 * コンストラクタ<br>
 	 * ユーザが定義した各Entityのリストを使用してコンバートするときはこちらを使用します．<br>
 	 * <p>
 	 * ただ，こちらを使ったとき，必要な情報が足りない場合，コンバート時にExceptionを吐く可能性があります．
 	 * </p>
+	 * <h2>Constructor</h2>
 	 * 
 	 * @param ownerID
 	 *            メッセージコンバータ使用者のEntityID
@@ -165,10 +172,12 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * コンストラクタ<br>
-	 * 通常使用するにはこちらのコンストラクタを使用してください．
+	 * 通常使用するにはこちらのコンストラクタを使用してください．<br>
+	 * <h2>Constructor</h2> Prepare to convert.
 	 * 
 	 * @param ownerID
-	 *            メッセージコンバータ使用者のEntityID
+	 *            メッセージコンバータ使用者のEntityID<br>
+	 *            EntityID of this converter user(Agent or Center).
 	 * @param model
 	 * @param config
 	 */
@@ -241,7 +250,8 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * コンバータ使用者のエージェントの種類を調べる．<br>
-	 * 何も引数のない場合は各EntityIDのリストから推測する．
+	 * Check type of agent that using this converter.<br>
+	 * (at, fb, pf, ac, fs, po)
 	 */
 	private void checkAgentType() {
 		this.agentType = DataType.HUMAN;
@@ -261,7 +271,33 @@ public class RCRSCSMessageConverter {
 	}
 
 	/**
+	 * コンバータ使用者のエージェントの種類を調べる．<br>
+	 * Check type of agent that using the converter.<br>
+	 * (at, fb, pf, ac, fs, po)
+	 * 
+	 * @param se
+	 *            agent that using the converter.
+	 */
+	private void checkAgentType(StandardEntity se) {
+		this.agentType = DataType.HUMAN;
+		if (se instanceof AmbulanceTeam) {
+			this.agentType = DataType.AMBULANCE_TEAM;
+		} else if (se instanceof FireBrigade) {
+			this.agentType = DataType.FIRE_BRIGADE;
+		} else if (se instanceof PoliceForce) {
+			this.agentType = DataType.POLICE_FORCE;
+		} else if (se instanceof AmbulanceCentre) {
+			this.agentType = DataType.AMBULANCE_CENTER;
+		} else if (se instanceof FireStation) {
+			this.agentType = DataType.FIRE_STATION;
+		} else if (se instanceof PoliceOffice) {
+			this.agentType = DataType.POLICE_OFFICE;
+		}
+	}
+
+	/**
 	 * 与えられたEntityIDを持つエージェントの種類を取得する．<br>
+	 * Return type of agent that have given EntityID.
 	 */
 	private DataType getAgentType(EntityID id) {
 		DataType res = null;
@@ -282,25 +318,39 @@ public class RCRSCSMessageConverter {
 	}
 
 	/**
-	 * 与えられたEntityIDを持つエージェントがセンターであるかどうかを取得する．
+	 * 与えられたEntityIDを持つエージェントがセンターであるかどうかを取得する．<br>
+	 * Return whether the agent that has given EntityID is center.
 	 * 
 	 * @param id
-	 * @return
+	 * @return if center : true<br>
+	 *         otherwise : false
 	 */
 	private boolean isCenter(EntityID id) {
 		return this.centerList.contains(id);
 	}
 
 	/**
-	 * 与えられたEntityIDを持つエージェントが救助エージェントであるかどうかを取得する．
+	 * 与えられたEntityIDを持つエージェントが救助エージェントであるかどうかを取得する．<br>
+	 * Return whether the agent that has given EntityID is rescue agent(at, fb,
+	 * po).
 	 * 
 	 * @param id
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private boolean isPlatoon(EntityID id) {
 		return this.platoonAgentList.contains(id);
 	}
 
+	/**
+	 * 二つのタイプのエージェントが主従関係にあるかどうかを調べる．<br>
+	 * Confirm whether two type of agents have the hierarchical relation.<br>
+	 * e.g.)AC-AT, FS-FB, PO-PF
+	 * 
+	 * @param center
+	 * @param agent
+	 * @return
+	 */
 	private boolean isBelong(DataType center, DataType agent) {
 		boolean res = false;
 		if (agent.equals(DataType.AMBULANCE_TEAM)
@@ -317,25 +367,9 @@ public class RCRSCSMessageConverter {
 	}
 
 	/**
-	 * コンバータ使用者のエージェントの種類を調べる．
+	 * 各メッセージの最小構成時のbit数を計算する<br>
+	 * Calculate bit num of each message that is minimum configuration.
 	 */
-	private void checkAgentType(StandardEntity se) {
-		this.agentType = DataType.HUMAN;
-		if (se instanceof AmbulanceTeam) {
-			this.agentType = DataType.AMBULANCE_TEAM;
-		} else if (se instanceof FireBrigade) {
-			this.agentType = DataType.FIRE_BRIGADE;
-		} else if (se instanceof PoliceForce) {
-			this.agentType = DataType.POLICE_FORCE;
-		} else if (se instanceof AmbulanceCentre) {
-			this.agentType = DataType.AMBULANCE_CENTER;
-		} else if (se instanceof FireStation) {
-			this.agentType = DataType.FIRE_STATION;
-		} else if (se instanceof PoliceOffice) {
-			this.agentType = DataType.POLICE_OFFICE;
-		}
-	}
-
 	private void initMessageMinimunSizeMap() {
 		this.messageMininumSizeMap = new EnumMap<BaseMessageType, Integer>(
 				BaseMessageType.class);
@@ -344,6 +378,14 @@ public class RCRSCSMessageConverter {
 		}
 	}
 
+	/**
+	 * あるメッセージの最小構成時のbit数を計算する<br>
+	 * Calculate bit num of a message that is minimum configuration.
+	 * 
+	 * @param m
+	 *            message type
+	 * @return bit num
+	 */
 	private int messageMinimumBitSize(BaseMessageType m) {
 		int res = 0;
 		for (DataType dt : RCRSCSMessage.COMMON_DATA_TYPE) {
@@ -359,6 +401,12 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * 各DataTypeを送信するのに必要なbit数の計算<br>
+	 * Calculate bit num necessary for sending each data.
+	 * 
+	 * @param map
+	 */
 	private void initBitSizeMap(EnumMap<DataType, Integer> map) {
 		this.dataBitSizeMap = new EnumMap<DataType, Integer>(DataType.class);
 		// time
@@ -400,23 +448,49 @@ public class RCRSCSMessageConverter {
 		this.dataBitSizeMap.put(DataType.FIERYNESS, calculateBitSize(Fieryness
 				.values().length));
 		this.dataBitSizeMap.put(DataType.REPAIR_COST, calculateBitSize(1000));
-		this.dataBitSizeMap.put(DataType.SUPPLY_QUANTITY,
-				calculateBitSize(this.TANK_MAX + 1));
+		// this.dataBitSizeMap.put(DataType.SUPPLY_QUANTITY,
+		// calculateBitSize(this.TANK_MAX + 1));
 		this.dataBitSizeMap.put(DataType.WATER_POWER,
 				calculateBitSize(this.EXTINGUISHABLE_POWER));
 		this.dataBitSizeMap.put(DataType.WATER, calculateBitSize(7500));
 	}
 
+	/**
+	 *　指定されたURNから該当するEntityのEntityIDのリストを取得します．<br>
+	 * Return List of EntityID of Entity that have given StandardEntityURN.
+	 * 
+	 * @param model
+	 * @param comp
+	 * @param urn
+	 * @return (sorted)List of EntityID
+	 */
 	private List<EntityID> getIDList(StandardWorldModel model,
 			EntityIDComparator comp, StandardEntityURN urn) {
 		return toIDList(model.getEntitiesOfType(urn), comp);
 	}
 
+	/**
+	 *　指定されたURNから該当するEntityのEntityIDのリストを取得します．<br>
+	 * Return List of EntityID of Entity that have given StandardEntityURNs.
+	 * 
+	 * @param model
+	 * @param comp
+	 * @param urns
+	 * @return (sorted)List of EntityID
+	 */
 	private List<EntityID> getIDList(StandardWorldModel model,
 			EntityIDComparator comp, StandardEntityURN... urns) {
 		return toIDList(model.getEntitiesOfType(urns), comp);
 	}
 
+	/**
+	 * 与えられたStandardEntity群からEntityIDのリストを取得します．<br>
+	 * Return EntityID list created from the collection of StandardEntity.
+	 * 
+	 * @param col
+	 * @param comp
+	 * @return (sorted)List of EntityID
+	 */
 	private List<EntityID> toIDList(Collection<StandardEntity> col,
 			EntityIDComparator comp) {
 		List<EntityID> res = new ArrayList<EntityID>();
@@ -429,17 +503,28 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * 受信したバイト列をメッセージのリストに変換します．<br>
-	 * 変換に失敗した場合，失敗したメッセージ以前のメッセージのリストを取得します．
+	 * 変換に失敗した場合，失敗したメッセージ以前のメッセージのリストを取得します．<br>
+	 * Convert received bytes to message list.<br>
+	 * In case failure happen halfway through converting, return list of message
+	 * converted by then.
 	 * 
 	 * @param bytes
-	 *            変換するバイト列
-	 * @return
+	 *            変換するバイト列<br>
+	 *            converting bytes
+	 * @return message list
 	 */
 	public List<RCRSCSMessage> bytesToMessageList(byte[] bytes) {
 		List<Integer> bitList = toBit(bytes);
 		return bitToMessages(bitList);
 	}
 
+	/**
+	 * ビット列をメッセージに変換します.<br>
+	 * Convert to bit sequence to message list.
+	 * 
+	 * @param bitList
+	 * @return message list
+	 */
 	private List<RCRSCSMessage> bitToMessages(List<Integer> bitList) {
 		List<RCRSCSMessage> res = new ArrayList<RCRSCSMessage>();
 		List<TaskMessage> taskList = new ArrayList<TaskMessage>();
@@ -502,6 +587,11 @@ public class RCRSCSMessageConverter {
 					break;
 				case AMBULANCE_TEAM:
 					message = new AmbulanceTeamInformation(bitList, offset,
+							this.dataBitSizeMap);
+					break;
+				// オレオレメッセージ
+				case UNPASSABLE:
+					message = new UnpassableInformation(bitList, offset,
 							this.dataBitSizeMap);
 					break;
 				// case CLEAR_BLOCKADE_REQUEST:
@@ -613,7 +703,12 @@ public class RCRSCSMessageConverter {
 	 * 2.１が真のとき，自分の直属のセンターから送られたものかどうか．<br>
 	 * 3.１が偽のとき，自分と同じ種類のエージェントから送られたものかどうか．<br>
 	 * 4.３が偽のとき，返り値がnullかどうか．<br>
-	 * これらに従って返り値となるTaskMessageが決定される．
+	 * これらに従って返り値となるTaskMessageが決定される． <br>
+	 * Filter the given task subject to the following conditions.<br>
+	 * 1.received task is sent from center.<br>
+	 * 2.if step 1 is true, the center is a direct superior.<br>
+	 * 3.if step 1 is false, the task is sent from same type of agent.<br>
+	 * 4.if step 3 is false, return value is null at the time.<br>
 	 * 
 	 * @param taskList
 	 * @return
@@ -624,7 +719,8 @@ public class RCRSCSMessageConverter {
 		for (TaskMessage task : taskList) {
 			EntityID id = task.getMessageOwnerID();
 			DataType type = this.getAgentType(id);
-			if (type != null) {
+			// そのエージェントに行うことが可能なタスクかどうかの判定も行う
+			if (type != null && canExecute(task, type)) {
 				if (this.isCenter(id)) {
 					if (this.isBelong(type, this.agentType)) {
 						res = task;
@@ -647,6 +743,37 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * 送信されてきたTaskが受信側エージェントに実行可能なものであるかどうかを判定する．<br>
+	 * Check the transmitted task is executable for the agent received this
+	 * task.
+	 * 
+	 * @param task
+	 * @param agentType
+	 * @return executable : true<br>
+	 *         otherwise : false
+	 */
+	private boolean canExecute(TaskMessage task, DataType agentType) {
+		boolean res = false;
+		if (task instanceof AmbulanceTeamTaskMessage
+				&& agentType.equals(DataType.AMBULANCE_TEAM)) {
+			res = true;
+		} else if (task instanceof PoliceForceTaskMessage
+				&& agentType.equals(DataType.POLICE_FORCE)) {
+			res = true;
+		} else if (task instanceof FireBrigadeTaskMessage
+				&& agentType.equals(DataType.FIRE_BRIGADE)) {
+			res = true;
+		}
+		return res;
+	}
+
+	/**
+	 * コンバートによって生成されたメッセージの各データの微調整を行う．<br>
+	 * fine-tune each data of message created by convert.
+	 * 
+	 * @param messageData
+	 */
 	private void convertToRealData(RCRSCSData<?> messageData) {
 		if (messageData instanceof EntityIDListData) {
 			List<EntityID> ids = new ArrayList<EntityID>();
@@ -719,7 +846,7 @@ public class RCRSCSMessageConverter {
 			case X_COORDINATE:
 			case Y_COORDINATE:
 			case WATER_POWER:
-			case SUPPLY_QUANTITY:
+				// case SUPPLY_QUANTITY:
 			case REPAIR_COST:
 			case WATER:
 				break;
@@ -730,6 +857,15 @@ public class RCRSCSMessageConverter {
 		}
 	}
 
+	/**
+	 * ビット列の指定部分を使って整数を生成する．<br>
+	 * Create int from a part of bit sequence.
+	 * 
+	 * @param list
+	 * @param index
+	 * @param length
+	 * @return int
+	 */
 	public static int bitToInt(List<Integer> list, int index, int length) {
 		int res = 0;
 		try {
@@ -744,6 +880,13 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * 取得したbyteをビット列に変換する．<br>
+	 * Change received bytes to bit sequence.
+	 * 
+	 * @param bytes
+	 * @return
+	 */
 	private static List<Integer> toBit(byte[] bytes) {
 		List<Integer> res = new ArrayList<Integer>();
 		for (byte b : bytes) {
@@ -754,11 +897,14 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * メッセージをバイト列に変換します．<br>
-	 * 変換に失敗したメッセージは送信データには含まれません．
+	 * 変換に失敗したメッセージは送信データには含まれません．<br>
+	 * Convert messages to bytes<br>
+	 * The messages that failed to cenvert are not contained.
 	 * 
 	 * @param messages
-	 *            送信するメッセージのリスト
-	 * @return
+	 *            送信するメッセージのリスト<br>
+	 *            List of messages
+	 * @return transmitted byte sequence
 	 */
 	public byte[] messageToBytes(List<RCRSCSMessage> messages) {
 		if (debug) {
@@ -779,6 +925,15 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * bitリストをバイト列に変換する．<br>
+	 * データコンバート時に使用されるプライベートメソッドです．<br>
+	 * Convert bit list to bytes.<br>
+	 * This is private method used on converting.
+	 * 
+	 * @param bitList
+	 * @return
+	 */
 	private byte[] getBytes(List<Integer> bitList) {
 		int index = 0;
 		int offset = 7;
@@ -793,6 +948,15 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * メッセージをbit列に変換します．<br>
+	 * Convert one message to bit list.<br>
+	 * This is private method used on converting.
+	 * 
+	 * @param message
+	 *            converted message
+	 * @return bit list
+	 */
 	private List<Integer> messageToBit(RCRSCSMessage message) {
 		List<Integer> res = new ArrayList<Integer>();
 		EnumMap<DataType, Integer> counter = new EnumMap<DataType, Integer>(
@@ -833,6 +997,15 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * valueを指定の長さのbit列に変換します．<br>
+	 * Convert value to bit list that have specified length.<br>
+	 * This is private method used on converting.
+	 * 
+	 * @param value
+	 * @param length
+	 * @return
+	 */
 	private static List<Integer> toBit(int value, int length) {
 		List<Integer> res = new ArrayList<Integer>();
 		for (int i = 0; i < length; i++) {
@@ -842,6 +1015,15 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * 各EntityIDListDataを送信用ビット列に変換します．<br>
+	 * Convert each EntityIDListData to bit list for transmission.<br>
+	 * This is private method used on converting.
+	 * 
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
 	private List<Integer> convertToMessageValue(EntityIDListData data)
 			throws Exception {
 		List<Integer> res = new ArrayList<Integer>();
@@ -870,6 +1052,16 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * 各RCRSCSData(EntityIDListDataを除く)を送信用ビット列に変換します．<br>
+	 * Convert each RCRSCSData(excepting EntityIDListData) to bit list for
+	 * transmission.<br>
+	 * This is private method used on converting.
+	 * 
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
 	private int convertToMessageValue(RCRSCSData<?> data) throws Exception {
 		int res = -1;
 		try {
@@ -925,7 +1117,7 @@ public class RCRSCSMessageConverter {
 			case X_COORDINATE:
 			case Y_COORDINATE:
 			case WATER_POWER:
-			case SUPPLY_QUANTITY:
+				// case SUPPLY_QUANTITY:
 			case REPAIR_COST:
 			case WATER:
 				res = (Integer) data.getData();
@@ -941,6 +1133,14 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
+	/**
+	 * This is private method used on converting.
+	 * 
+	 * @param map
+	 * @param dType
+	 * @param i
+	 * @return
+	 */
 	public static int getDataTypeIndex(EnumMap<DataType, Integer> map,
 			DataType dType, Integer i) {
 		Integer val = map.get(dType);
@@ -953,6 +1153,14 @@ public class RCRSCSMessageConverter {
 		return val;
 	}
 
+	/**
+	 * valueを表現するために最低限必要なビット数を計算します．<br>
+	 * Calculate bit num necessary for express value.<br>
+	 * This is private method used on converting.
+	 * 
+	 * @param value
+	 * @return
+	 */
 	private int calculateBitSize(int value) {
 		int res = 0;
 		if (value == 1) {

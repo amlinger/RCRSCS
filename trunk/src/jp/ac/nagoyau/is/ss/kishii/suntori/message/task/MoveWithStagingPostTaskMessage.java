@@ -8,6 +8,7 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.EntityIDData;
 import rescuecore2.worldmodel.EntityID;
 
+@Deprecated
 /**
  * 移動タスクメッセージクラスです．<br>
  * このクラスでは，メッセージに移動中継地点含めることができます．

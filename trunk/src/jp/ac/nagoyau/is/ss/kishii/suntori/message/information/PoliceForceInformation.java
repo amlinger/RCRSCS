@@ -9,6 +9,12 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.EntityIDData;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.ValueData;
 import rescuecore2.worldmodel.EntityID;
 
+/**
+ * The class represent the police force information
+ * 
+ * @author takefumi
+ * 
+ */
 public class PoliceForceInformation extends WorldInformation {
 
 	/**
@@ -23,19 +29,35 @@ public class PoliceForceInformation extends WorldInformation {
 	 * <li>buriedness:啓開隊の埋没度</li>
 	 * <li>areaID:啓開隊が現在存在するエリアのEntityID</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the information of the police force.<br>
+	 * Included data are follow.
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>pfID:EntityID of the pf</li>
+	 * <li>hp:hp of the pf</li>
+	 * <li>damage:damage of the pf</li>
+	 * <li>buriedness:buriedness of the pf</li>
+	 * <li>areaID:EntityID of area that the pf is standing.</li>
+	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param pfID
-	 *            啓開隊のID
+	 *            啓開隊のID<br>
+	 *            EntityID of the pf
 	 * @param hp
-	 *            体力
+	 *            体力<br>
+	 *            hp of the pf
 	 * @param damage
-	 *            ダメージ
+	 *            ダメージ<br>
+	 *            damage of the pf
 	 * @param buriedness
-	 *            埋没度
+	 *            埋没度<br>
+	 *            buriedness of the pf
 	 * @param areaID
-	 *            現在いるエリア
+	 *            現在いるエリア<br>
+	 *            EntityID of area
 	 */
 	public PoliceForceInformation(int time, EntityID fbID, int hp, int damage,
 			int buriedness, EntityID areaID) {
@@ -48,7 +70,8 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ
+	 * コンバート時にシステムが使用するコンストラクタ<br>
+	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
 	 * @param offset
@@ -60,48 +83,63 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * PFのEntityIDを取得します．
+	 * PFのEntityIDを取得します．<br>
+	 * Return EntityID of the pf.
 	 * 
-	 * @return 消防隊のEntityID
+	 * @return 啓開隊のEntityID<br>
+	 *         EntityID
 	 */
 	public EntityID getPoliceForceID() {
 		return super.getID(DataType.POLICE_FORCE, 0);
 	}
 
 	/**
-	 * PFの体力を取得します．
+	 * PFの体力を取得します．<br>
+	 * Return hp of the pf.
 	 * 
-	 * @return 体力
+	 * @rketurn 体力<br>
+	 *          hp
 	 */
 	public int getHP() {
 		return super.getHP(0);
 	}
 
 	/**
-	 * ダメージを取得します．
+	 * ダメージを取得します．<br>
+	 * Return damege of the pf.
 	 * 
-	 * @return ダメージ
+	 * @return ダメージ<br>
+	 *         damage
 	 */
-	public int getDatage() {
+	public int getDamage() {
 		return super.getDamage(0);
 	}
 
 	/**
-	 * PFの埋没度を取得します．
+	 * PFの埋没度を取得します．<br>
+	 * Return buryedness of the pf.
 	 * 
-	 * @return 埋没度
+	 * @return 埋没度<br>
+	 *         buryedness
 	 */
 	public int getBuriedness() {
 		return super.getBuriedness(0);
 	}
 
 	/**
-	 * PFが現在いるエリアのEntityID
+	 * PFが現在いるエリアのEntityID<br>
+	 * Return EntityID of area that the pf is standing.
 	 * 
-	 * @return エリアのEntityID
+	 * @return エリアのEntityID<br>
+	 *         EntityID
 	 */
 	public EntityID getPositionID() {
 		return super.getID(DataType.AREA, 0);
+	}
+
+	@Override
+	public EntityID getEntityID() {
+		return this.getPoliceForceID();
 	}
 
 }

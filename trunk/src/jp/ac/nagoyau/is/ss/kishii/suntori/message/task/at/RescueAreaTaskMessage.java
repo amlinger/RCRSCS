@@ -12,7 +12,11 @@ import rescuecore2.worldmodel.EntityID;
 /**
  * 救急指令メッセージクラスです．<br>
  * このクラスはエージェント(救急隊：AT)に，ある地域(Areaの集合)を指定し，
- * そのエリア内の被災者を捜索して救助することを指令するためのメッセージクラスです．
+ * そのエリア内の被災者を捜索して救助することを指令するためのメッセージクラスです．<br>
+ * The RescueAreaTaskMessage show the message that command to rescue.<br>
+ * This class inform some areas (set of area) and order to search and rescue
+ * victim in this area.
+ * 
  * 
  * @author takefumi
  * 
@@ -28,15 +32,27 @@ public class RescueAreaTaskMessage extends AmbulanceTeamTaskMessage {
 	 * <li>atID:救急隊のEntityID</li>
 	 * <li>areas:捜索対象となるエリアのEntityID列</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the message to order to rescue to AT. <br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>ownerID:EntityID of the agent that sent this message.</li>
+	 * <li>atID:EntityID of AT that is ordered to do.</li>
+	 * <li>areas:EntityIDs of area that are search target</li>
+	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param ownerID
-	 *            メッセージ送信者のEntityID
+	 *            メッセージ送信者のEntityID<br>
+	 *            EntityID of the agent that sent this message.
 	 * @param atID
-	 *            救助隊のEntityID
+	 *            救助隊のEntityID<br>
+	 *            EntityID of AT.
 	 * @param areas
-	 *            エリアのEntityID列
+	 *            エリアのEntityID列<br>
+	 *            EntityIDs of area
 	 */
 	public RescueAreaTaskMessage(int time, EntityID ownerID, EntityID atID,
 			EntityID... areas) {
@@ -53,15 +69,27 @@ public class RescueAreaTaskMessage extends AmbulanceTeamTaskMessage {
 	 * <li>atID:救急隊のEntityID</li>
 	 * <li>areas:捜索対象となるエリアのEntityID列</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the message to order rescue to AT. <br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>ownerID:EntityID of the agent that sent this message.</li>
+	 * <li>atID:EntityID of AT that is ordered to do.</li>
+	 * <li>areas:List of EntityIDs of area that are search target</li>
+	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param ownerID
-	 *            メッセージ送信者のEntityID
+	 *            メッセージ送信者のEntityID<br>
+	 *            EntityID of the agent that sent this message
 	 * @param atID
-	 *            救助隊のEntityID
+	 *            救助隊のEntityID<br>
+	 *            EntityID of the AT
 	 * @param areas
-	 *            エリアのEntityIDリスト
+	 *            エリアのEntityIDリスト<br>
+	 *            List of EntityID
 	 */
 	public RescueAreaTaskMessage(int time, EntityID ownerID, EntityID atID,
 			List<EntityID> areas) {
@@ -70,7 +98,8 @@ public class RescueAreaTaskMessage extends AmbulanceTeamTaskMessage {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ
+	 * コンバート時システムが使用するコンストラクタ <br>
+	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
 	 * @param offset
@@ -82,9 +111,11 @@ public class RescueAreaTaskMessage extends AmbulanceTeamTaskMessage {
 	}
 
 	/**
-	 * 捜索対象エリアのリストを取得します．
+	 * 捜索対象エリアのリストを取得します．<br>
+	 * Return the list of areas that are target of the search.
 	 * 
-	 * @return 捜索エリアのリスト
+	 * @return 捜索エリアのリスト<br>
+	 *         Return list of areas({@literal List<EntityID>})
 	 */
 	public List<EntityID> getTargetAreaList() {
 		return super.getEntityIDList(DataType.AREA_LIST, 0);

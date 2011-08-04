@@ -10,7 +10,8 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.ValueData;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 救急隊の情報を表すクラスです．
+ * 救急隊の情報を表すクラスです． <br>
+ * This class represent the information of Ambulance Team.
  * 
  * @author takefumi
  * 
@@ -28,19 +29,36 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	 * <li>buriedness:救急隊の埋没度</li>
 	 * <li>areaID:救急隊が現在存在するエリアのEntityID</li>
 	 * </ul>
+	 * <br>
+	 * <h2>Constructor</h2> Create the Ambulance Team Information.<br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>atID:EntityID of Ambulance Team Agent.</li>
+	 * <li>hp:HP of the at.</li>
+	 * <li>damage: Damage of the at.</li>
+	 * <li>buriedness:buriedness of at.</li>
+	 * <li>areaID:EntityID of area that the at is standing.</li>
+	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num.
 	 * @param atID
-	 *            救急隊のID
+	 *            救急隊のID<br>
+	 *            EntityID of at.
 	 * @param hp
-	 *            体力
+	 *            体力 <br>
+	 *            hp of the at.
 	 * @param damage
-	 *            ダメージ
+	 *            ダメージ<br>
+	 *            damage of the at.
 	 * @param buriedness
-	 *            埋没度
+	 *            埋没度 <br>
+	 *            buriedness of the at.
 	 * @param areaID
-	 *            現在いるエリア
+	 *            現在いるエリア <br>
+	 *            EntityID of area that the at is standing.
 	 */
 	public AmbulanceTeamInformation(int time, EntityID atID, int hp,
 			int damage, int buriedness, EntityID areaID) {
@@ -55,7 +73,9 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	/**
 	 * コンストラクタ<br>
 	 * 与えられたビット列からこのクラスを生成します．<br>
-	 * このコンストラクタはシステムが使用するためのメソッドです．
+	 * このコンストラクタはシステムが使用するためのメソッドです．<br>
+	 * <h2>Constructor</h2> Create the instance of this class from bit sequence.<br>
+	 * This method is defined for this library.
 	 * 
 	 * @param bitList
 	 * @param offset
@@ -65,49 +85,64 @@ public class AmbulanceTeamInformation extends WorldInformation {
 			EnumMap<DataType, Integer> bitSizeMap) {
 		super(BaseMessageType.AMBULANCE_TEAM, bitList, offset, bitSizeMap);
 	}
-	
+
 	/**
-	 * ATのIDを取得します．
+	 * ATのIDを取得します．<br>
+	 * Return EntityID of at.
 	 * 
-	 * @return ATのID
+	 * @return ATのID<br>
+	 *         EntityID of at.
 	 */
 	public EntityID getAmbulanceTeamID() {
 		return super.getID(DataType.AMBULANCE_TEAM, 0);
 	}
 
 	/**
-	 * ATの体力を取得します．
+	 * ATの体力を取得します．<br>
+	 * Return hp of the at.
 	 * 
-	 * @return 体力
+	 * @return 体力<br>
+	 *         hp
 	 */
 	public int getHP() {
 		return super.getHP(0);
 	}
 
 	/**
-	 * ATのダメージを取得します．
+	 * ATのダメージを取得します．<br>
+	 * Return damage of the at.
 	 * 
-	 * @return ダメージ
+	 * @return ダメージ <br>
+	 *         damage
 	 */
-	public int getDatage() {
+	public int getDamage() {
 		return super.getDamage(0);
 	}
 
 	/**
-	 * ATの埋没度を取得します．
+	 * ATの埋没度を取得します．<br>
+	 * Return buriedness of the at.
 	 * 
-	 * @return 埋没度
+	 * @return 埋没度<br>
+	 *         buriedness
 	 */
 	public int getBuriedness() {
 		return super.getBuriedness(0);
 	}
 
 	/**
-	 * ATが現在いるエリアのEntityID
+	 * ATが現在いるエリアのEntityID<br>
+	 * Return EntityID of area that the at is standing.
 	 * 
-	 * @return エリアのEntityID
+	 * @return エリアのEntityID<br>
+	 *         EntityID of area
 	 */
 	public EntityID getPositionID() {
 		return super.getID(DataType.AREA, 0);
+	}
+
+	@Override
+	public EntityID getEntityID() {
+		return this.getAmbulanceTeamID();
 	}
 }

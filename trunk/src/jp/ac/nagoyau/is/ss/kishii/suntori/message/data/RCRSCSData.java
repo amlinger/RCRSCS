@@ -1,9 +1,30 @@
 package jp.ac.nagoyau.is.ss.kishii.suntori.message.data;
 
+/**
+ * This class show that Data of Entity, and have one {@link DataType} and one
+ * value.
+ * 
+ * @author takefumi
+ * 
+ * @param <E>
+ */
 public abstract class RCRSCSData<E extends Object> {
+	/**
+	 * type of this data.
+	 */
 	protected DataType type;
+	/**
+	 * actual value of this data.
+	 */
 	protected E value;
 
+	/**
+	 * コンストラクタ<br>
+	 * Constructor
+	 * 
+	 * @param type
+	 *            {@link DataType}
+	 */
 	RCRSCSData(DataType type) {
 		this.type = type;
 		this.value = null;
@@ -14,14 +35,30 @@ public abstract class RCRSCSData<E extends Object> {
 	// this.value = null;
 	// }
 
+	/**
+	 * Return the {@link DataType} of this data.
+	 * 
+	 * @return {@link DataType}
+	 */
 	public DataType getType() {
 		return this.type;
 	}
 
+	/**
+	 * Return the actual value of this data.
+	 * 
+	 * @return
+	 */
 	public E getData() {
 		return this.value;
 	}
 
+	/**
+	 * Set the value to obj
+	 * 
+	 * @param obj
+	 *            actual value of this data
+	 */
 	public abstract void setData(E obj);
 
 	@Override

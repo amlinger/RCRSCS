@@ -11,7 +11,11 @@ import rescuecore2.worldmodel.EntityID;
 
 /**
  * 消火指令メッセージクラスです．<br>
- * このクラスはエージェント(消防隊:FB)に，ある地域(Areaの集合)を指定し， そのエリア内の消火活動を指令するためのメッセージクラスです．
+ * このクラスはエージェント(消防隊:FB)に，ある地域(Areaの集合)を指定し， そのエリア内の消火活動を指令するためのメッセージクラスです． <br>
+ * The ExtinguishAreaTaskMessage represent the message that command to
+ * extinguish.<br>
+ * This class inform some areas (set of area) to FB and order to search and
+ * fight fires in this area.
  * 
  * @author takefumi
  * 
@@ -27,22 +31,27 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	 * <li>fbID:消防隊のEntityID</li>
 	 * <li>areas:消火活動対象となるエリアのEntityID列</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the message to order to fight fires to FB. <br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>ownerID:EntityID of the agent that sent this message.</li>
+	 * <li>fbID:EntityID of FB that is ordered to do.</li>
+	 * <li>areas:EntityIDs of area that are search target</li>
+	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param ownerID
-	 *            メッセージ送信者のEntityID
+	 *            メッセージ送信者のEntityID<br>
+	 *            EntityID of the agent that sent this message.
 	 * @param fbID
-	 *            消防隊のEntityID
+	 *            救助隊のEntityID<br>
+	 *            EntityID of FB.
 	 * @param areas
-	 *            エリアのEntityID列
-	 * 
-	 * @param time
-	 *            ステップ数
-	 * @param fbID
-	 *            消防隊のEntityID
-	 * @param areas
-	 *            消火活動対象となるエリアのEntityID列
+	 *            エリアのEntityID列<br>
+	 *            EntityIDs of area
 	 */
 	public ExtinguishAreaTaskMessage(int time, EntityID ownerID, EntityID fbID,
 			EntityID... areas) {
@@ -59,23 +68,27 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	 * <li>fbID:消防隊のEntityID</li>
 	 * <li>areas:消火活動対象となるエリアのEntityID列</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the message to order fight fires to FB. <br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>ownerID:EntityID of the agent that sent this message.</li>
+	 * <li>fbID:EntityID of FB that is ordered to do.</li>
+	 * <li>areas:List of EntityIDs of area that are search target</li>
+	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param ownerID
-	 *            メッセージ送信者のEntityID
+	 *            メッセージ送信者のEntityID<br>
+	 *            EntityID of the agent that sent this message
 	 * @param fbID
-	 *            消防隊のEntityID
+	 *            救助隊のEntityID<br>
+	 *            EntityID of the FB
 	 * @param areas
-	 *            エリアのEntityID列
-	 * 
-	 * 
-	 * @param time
-	 *            ステップ数
-	 * @param fbID
-	 *            消防隊のEntityID
-	 * @param areas
-	 *            消火活動対象となるエリアのEntityIDリスト
+	 *            エリアのEntityIDリスト<br>
+	 *            List of EntityID
 	 */
 	public ExtinguishAreaTaskMessage(int time, EntityID ownerID, EntityID fbID,
 			List<EntityID> areas) {
@@ -84,7 +97,8 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ
+	 * コンバート時システムが使用するコンストラクタ <br>
+	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
 	 * @param offset
@@ -96,9 +110,11 @@ public class ExtinguishAreaTaskMessage extends FireBrigadeTaskMessage {
 	}
 
 	/**
-	 * 消火活動対象エリアのリストを取得します．
+	 * 消火活動対象エリアのリストを取得します．<br>
+	 * Return list of EntityID of areas that are target of fire fight
 	 * 
-	 * @return 消火活動エリアのリスト
+	 * @return 消火活動エリアのリスト<br>
+	 *         List of fire fight targets({@literal List<EntityID>})
 	 */
 	public List<EntityID> getTargetAreaList() {
 		return super.getEntityIDList(DataType.AREA_LIST, 0);

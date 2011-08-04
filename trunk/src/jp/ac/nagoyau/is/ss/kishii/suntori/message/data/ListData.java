@@ -3,7 +3,8 @@ package jp.ac.nagoyau.is.ss.kishii.suntori.message.data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListData extends RCRSCSData<List<Integer>> {
+@Deprecated
+class ListData extends RCRSCSData<List<Integer>> {
 
 	public ListData(DataType type) {
 		super(type);
@@ -22,5 +23,4 @@ public class ListData extends RCRSCSData<List<Integer>> {
 	public void setData(Integer value) {
 		this.value.add(value);
 	}
-
 }

@@ -13,7 +13,8 @@ import rescuecore2.misc.Pair;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * メッセージを表すクラスです．
+ * メッセージを表すクラスです．<br>
+ * This class represent the transmitted message.
  * 
  * @author takefumi
  * 
@@ -23,6 +24,13 @@ public abstract class RCRSCSMessage implements IMessage {
 	protected final static DataType[] COMMON_DATA_TYPE = new DataType[] { DataType.TIME };
 	protected List<RCRSCSData<?>> data;
 
+	/**
+	 * コンストラクタ<br>
+	 * <h2>Constructor</h2>
+	 * 
+	 * @param type
+	 * @param time
+	 */
 	public RCRSCSMessage(BaseMessageType type, int time) {
 		super();
 		this.messageType = type;
@@ -34,12 +42,28 @@ public abstract class RCRSCSMessage implements IMessage {
 		this.setData(new ValueData(DataType.TIME, time));
 	}
 
+	/**
+	 * コンストラクタ<br>
+	 * <h2>Constructor</h2>
+	 * 
+	 * @param data
+	 * @param type
+	 */
 	public RCRSCSMessage(List<RCRSCSData<?>> data, BaseMessageType type) {
 		super();
 		this.messageType = type;
 		this.data = data;
 	}
 
+	/**
+	 * コンバート時にシステムが使用するコンストラクタ <br>
+	 * The method that the library use to convert the message.
+	 * 
+	 * @param type
+	 * @param bitList
+	 * @param offset
+	 * @param bitSizeMap
+	 */
 	public RCRSCSMessage(BaseMessageType type, List<Integer> bitList,
 			int offset, EnumMap<DataType, Integer> bitSizeMap) {
 		this.messageType = type;
@@ -80,46 +104,58 @@ public abstract class RCRSCSMessage implements IMessage {
 		}
 	}
 
-	public int getMessageMinimumSize(EnumMap<DataType, Integer> bitSizeMap) {
-		int res = 0;
-		for (DataType dt : getDataTypeArray()) {
-			if (dt == DataType.ID_LIST || dt == DataType.AREA_LIST) {
-				res += 32;
-			} else {
-				res += bitSizeMap.get(dt);
-			}
-			// System.out.println("途中:" + res);
-		}
-		// System.out.println("計算結果" + res);
-		return res;
-	}
-
+	/**
+	 * メッセージのビットサイズを取得します．<br>
+	 * Return bit num of this message.
+	 * 
+	 * @param bitSizeMap
+	 * @return ビットサイズ<br>
+	 *         bit num
+	 */
 	public int getMessageBitSize(EnumMap<DataType, Integer> bitSizeMap) {
+		// int res = 0;
+		// EnumMap<DataType, Integer> counter = new EnumMap<DataType, Integer>(
+		// DataType.class);
+		// for (DataType dt : getDataTypeArray()) {
+		// if (dt == DataType.ID_LIST) {
+		// EntityIDListData d = (EntityIDListData) this
+		// .getData(dt, RCRSCSMessageConverter.getDataTypeIndex(
+		// counter, dt, 1));
+		// if (d != null) {
+		// res += 32 * (d.getData().size() + 1);
+		// }
+		// } else if (dt == DataType.AREA_LIST) {
+		// EntityIDListData d = (EntityIDListData) this
+		// .getData(dt, RCRSCSMessageConverter.getDataTypeIndex(
+		// counter, dt, 1));
+		// if (d != null) {
+		// res += (32 + (bitSizeMap.get(DataType.AREA) * d.getData()
+		// .size()));
+		// }
+		// } else {
+		// res += bitSizeMap.get(dt);
+		// }
+		// // System.out.println("途中:" + res);
+		// }
+		// // System.out.println("計算結果" + res);
+		// return res;
 		int res = 0;
-		EnumMap<DataType, Integer> counter = new EnumMap<DataType, Integer>(
-				DataType.class);
-		for (DataType dt : getDataTypeArray()) {
-			if (dt == DataType.ID_LIST) {
-				EntityIDListData d = (EntityIDListData) this
-						.getData(dt, RCRSCSMessageConverter.getDataTypeIndex(
-								counter, dt, 1));
-				if (d != null) {
-					res += 32 * (d.getData().size() + 1);
+		for (RCRSCSData<?> d : this.data) {
+			if (d != null) {
+				DataType type = d.getType();
+				if (type == DataType.AREA_LIST) {
+					res += 32;
+					EntityIDListData eild = (EntityIDListData) d;
+					res += bitSizeMap.get(DataType.AREA)
+							* eild.getData().size();
+				} else if (type == DataType.ID_LIST) {
+					EntityIDListData eild = (EntityIDListData) d;
+					res += 32 * (eild.getData().size() + 1);
+				} else {
+					res += bitSizeMap.get(type);
 				}
-			} else if (dt == DataType.AREA_LIST) {
-				EntityIDListData d = (EntityIDListData) this
-						.getData(dt, RCRSCSMessageConverter.getDataTypeIndex(
-								counter, dt, 1));
-				if (d != null) {
-					res += (32 + (bitSizeMap.get(DataType.AREA) * d.getData()
-							.size()));
-				}
-			} else {
-				res += bitSizeMap.get(dt);
 			}
-			// System.out.println("途中:" + res);
 		}
-		// System.out.println("計算結果" + res);
 		return res;
 	}
 
@@ -165,6 +201,16 @@ public abstract class RCRSCSMessage implements IMessage {
 		new Exception().printStackTrace();
 	}
 
+	/**
+	 * メッセージが送信に必要なデータを持っているかを確認するメソッドです．<br>
+	 * いまだ登録されていないデータが存在するときはfalseを返します．<br>
+	 * This method confirm whether data necessary for sending message are
+	 * existing.<br>
+	 * If not, return false.
+	 * 
+	 * @return this message is senndable : true<br>
+	 *         otherwise : false
+	 */
 	public boolean isSendable() {
 		boolean res = true;
 		for (int i = 0; i < this.messageType.getDataType().length; i++) {
@@ -176,6 +222,12 @@ public abstract class RCRSCSMessage implements IMessage {
 		return res;
 	}
 
+	/**
+	 * メッセージの種類を取得します．<br>
+	 * Return type of this message.
+	 * 
+	 * @return type of message
+	 */
 	public BaseMessageType getMessageType() {
 		return this.messageType;
 	}
@@ -212,6 +264,15 @@ public abstract class RCRSCSMessage implements IMessage {
 		return true;
 	}
 
+	/**
+	 * 指定されたDataTypeかつ指定番目のデータを取得します．<br>
+	 * Return data that have specified DataType and index.<br>
+	 * This method is only used in the class extending this class.
+	 * 
+	 * @param dType
+	 * @param index
+	 * @return
+	 */
 	protected RCRSCSData<?> getData(DataType dType, int index) {
 		int targetIndex = 0;
 		for (int i = 0; i < COMMON_DATA_TYPE.length; i++) {
@@ -241,6 +302,15 @@ public abstract class RCRSCSMessage implements IMessage {
 		return null;
 	}
 
+	/**
+	 * 指定されたDataTypeかつ指定番目のデータ(EntityID)を取得します．<br>
+	 * Return data(EntityID) that have specified DataType and index.<br>
+	 * This method is only used in the class extending this class.
+	 * 
+	 * @param dType
+	 * @param index
+	 * @return EntityID
+	 */
 	protected EntityID getID(DataType dType, int index) {
 		EntityID res = null;
 		RCRSCSData<?> d = this.getData(dType, index);
@@ -356,17 +426,17 @@ public abstract class RCRSCSMessage implements IMessage {
 		return res;
 	}
 
-	protected int getSupplyQuantity(int index) {
-		int res = -1;
-		RCRSCSData<?> d = this.getData(DataType.SUPPLY_QUANTITY, index);
-		if (d != null) {
-			Integer id = ((ValueData) d).getData();
-			if (id != null) {
-				res = id;
-			}
-		}
-		return res;
-	}
+	// protected int getSupplyQuantity(int index) {
+	// int res = -1;
+	// RCRSCSData<?> d = this.getData(DataType.SUPPLY_QUANTITY, index);
+	// if (d != null) {
+	// Integer id = ((ValueData) d).getData();
+	// if (id != null) {
+	// res = id;
+	// }
+	// }
+	// return res;
+	// }
 
 	protected int getRepairCost(int index) {
 		int res = -1;

@@ -10,7 +10,8 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.TaskMessage;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 消防隊専用タスクを表現するためのメッセージクラスです．
+ * 消防隊専用タスクを表現するためのメッセージクラスです． <br>
+ * The class represent the Task for Fire Brigade agent.
  * 
  * @author takefumi
  * 
@@ -25,10 +26,23 @@ public abstract class FireBrigadeTaskMessage extends TaskMessage {
 	 * <li>ownerID:メッセージ送信者のID</li>
 	 * <li>fbID:消防隊のEntityID</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the message to give instructions to FB.<br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>ownerID:EntityID of the agent that sent this message.</li>
+	 * <li>fbID:EntityID of FB that is ordered to do.</li>
+	 * </ul>
 	 * 
 	 * @param type
+	 *            メッセージの種類 <br>
+	 *            message type
 	 * @param time
-	 * @param atID
+	 *            ステップ数<br>
+	 *            step num
+	 * @param fbID
+	 *            救急隊のEntityID<br>
+	 *            EntityID of FB
 	 */
 	public FireBrigadeTaskMessage(BaseMessageType type, int time,
 			EntityID ownerID, EntityID fbID) {
@@ -38,7 +52,8 @@ public abstract class FireBrigadeTaskMessage extends TaskMessage {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ
+	 * コンバート時システムが使用するコンストラクタ <br>
+	 * The method that the library use to convert the message.
 	 * 
 	 * @param type
 	 * @param bitList
@@ -51,9 +66,11 @@ public abstract class FireBrigadeTaskMessage extends TaskMessage {
 	}
 
 	/**
-	 * このタスクを実行すべき消防隊のEntityIDを取得します．
+	 * このタスクを実行すべき消防隊のEntityIDを取得します．<br>
+	 * Return EntityID of FB that have to execute this task.
 	 * 
-	 * @return 消防隊のEntityID
+	 * @return 消防隊のEntityID<br>
+	 *         EntityID of FB
 	 */
 	public EntityID getAssignedAgentID() {
 		return super.getID(DataType.FIRE_BRIGADE, 0);
