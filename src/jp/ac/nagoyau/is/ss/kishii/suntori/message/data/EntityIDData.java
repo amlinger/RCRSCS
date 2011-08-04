@@ -2,8 +2,23 @@ package jp.ac.nagoyau.is.ss.kishii.suntori.message.data;
 
 import rescuecore2.worldmodel.EntityID;
 
+/**
+ * This class represent the data of EntityID.<br>
+ * 
+ * @author takefumi
+ * 
+ */
 public class EntityIDData extends RCRSCSData<EntityID> {
 
+	/**
+	 * コンストラクタ<br>
+	 * Constructor
+	 * 
+	 * @param type
+	 *            type of the data({@link DataType})
+	 * @param value
+	 *            actual value of data(EntityID)
+	 */
 	public EntityIDData(DataType type, EntityID value) {
 		super(type);
 		this.value = value;

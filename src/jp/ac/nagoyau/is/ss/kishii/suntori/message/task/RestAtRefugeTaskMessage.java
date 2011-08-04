@@ -7,7 +7,7 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.BaseMessageType;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.EntityIDData;
 import rescuecore2.worldmodel.EntityID;
-
+@Deprecated
 /**
  * 休憩タスクメッセージクラスです．<br>
  * このクラスはエージェントに避難所でrestさせるためのメッセージです．

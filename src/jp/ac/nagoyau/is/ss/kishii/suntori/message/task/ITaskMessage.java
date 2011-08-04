@@ -4,9 +4,11 @@ import rescuecore2.worldmodel.EntityID;
 
 public interface ITaskMessage {
 	/**
-	 * タスクを実行すべきエージェントのEntityID(platoon)を取得します．
+	 * このタスクを実行すべきエージェントのEntityIDを取得します．<br>
+	 * Return EntityID of agent that have to execute this task.
 	 * 
-	 * @return エージェントのEntityID
+	 * @return エージェントのEntityID<br>
+	 *         EntityID of agent
 	 */
 	public EntityID getAssignedAgentID();
 }

@@ -8,7 +8,9 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 割り当てられたタスクが実行不可能であることを表すメッセージクラスです．
+ * 割り当てられたタスクが実行不可能であることを表すメッセージクラスです．<br>
+ * This class is the Message Class that report the given task is not able to
+ * complete at the moment.
  * 
  * @author takefumi
  * 
@@ -22,16 +24,28 @@ public class ExceptionReportMessage extends ReportMessage {
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
 	 * <li>platoonID:救助隊のEntityID</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the message that report the given task is
+	 * uncompletable.<br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>platoonID:EntityID of the rescue agent</li>
+	 * </ul>
 	 * 
 	 * @param time
+	 *            ステップ数<br>
+	 *            step num
 	 * @param platoonID
+	 *            救助隊のEntityID<br>
+	 *            EntityID of the rescue agent.
 	 */
 	public ExceptionReportMessage(int time, EntityID platoonID) {
 		super(BaseMessageType.EXCEPTION, time, platoonID);
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ
+	 * コンバート時システムが使用するコンストラクタ <br>
+	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
 	 * @param offset

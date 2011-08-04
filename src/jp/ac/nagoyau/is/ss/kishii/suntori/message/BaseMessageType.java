@@ -10,25 +10,29 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
  * <dt>Information Message Type</dt>
  * <dd>This type indicates that the information obtained from the disaster
  * space.</dd>
- * <dd>BUILDING,FIRE,ROAD,BLOCKADE,VICTIM,POSITION and TRANSFER_PATHWAY
- * correspond to this.</dd>
- * <dt>Request Message Type</dt>
- * <dd>This type indicates that the message is a request that one agent ask a
- * task to other agent.</dd>
- * <dd>CLEAR_BLOCKADE_REQUEST, EXTINGUISH_REQUEST and RESCUE_REQUEST correspond
- * to this.</dd>
+ * <dd>BUILDING,BLOCKADE,BLOCKADE_WITH_COORDINATE,VICTIM,VICTIM_WITH_COORDINATE,
+ * POSITION,TRANSFER_PATHWAY,FIRE_BRIGADE,POLICE_FORCE,AMBULANCE_TEAM and
+ * UNPASSABLE correspond to this.</dd>
  * <dt>Task Message Type</dt>
  * <dd>This type indicates that the message is a task ordered agent has to
  * execute it.</dd>
+ * <dd>CLEAR_ROUTE,RESCUE_AREA and EXTINGUISH_AREA correspond to this.</dd>
  * <dd>
  * REST_TASK, MOVE_TASK, CLEAR_BLOCKADE_TASK, RESCUE_TASK, EXTINGUISH_TASK and
  * WATER_SUPPLY_TASK correspond to this.</dd>
+ * <dt>Report Message Type</dt>
+ * <dd>This type indicates that the message is a report for the given task.</dd>
+ * <dd>DONE and EXCEPTION correspond to this.</dd>
  * </dl>
  * 
  * @author takefumi
  * 
  */
 public enum BaseMessageType {
+	// オレオレメッセージ
+	UNPASSABLE(new DataType[] { DataType.PLATOON_AGENT, DataType.AREA,
+			DataType.AREA, DataType.BLOCKADE }),
+
 	// Information message type
 	/**
 	 * building

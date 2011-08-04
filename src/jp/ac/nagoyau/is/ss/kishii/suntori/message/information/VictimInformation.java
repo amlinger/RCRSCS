@@ -11,7 +11,8 @@ import rescuecore2.misc.Pair;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 被災者の情報を表すクラスです．
+ * 被災者の情報を表すクラスです．<br>
+ * The class show the information of victim.
  * 
  * @author takefumi
  * 
@@ -34,19 +35,40 @@ public class VictimInformation extends WorldInformation {
 	 * <p>
 	 * また，vicIDにはCivilianのEntityIDだけではなく，救助隊(platoon)のEntityIDを指定することもできます．
 	 * </p>
+	 * <h2>Constructor</h2> Create the victim information. Included data are
+	 * follow.
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>vicID:EntityID of the victim</li>
+	 * <li>area:EntityID of area that the victim exist</li>
+	 * <li>hp:hp of the victim</li>
+	 * <li>buriedness:buriedness of the victim</li>
+	 * <li>damage:damage of the victim</li>
+	 * </ul>
+	 * Additionally, This message can send the location data of the victim(
+	 * {@literal Pair<Integer,Integer>} ), if location information doesn't
+	 * exist, we get this as (-1,-1).<br>
+	 * And not only EntityID of the civilian, but also EntityID of the platoon
+	 * is assignable as vicID.
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param vicID
-	 *            被災者のEntityID
+	 *            被災者のEntityID <br>
+	 *            EntityID of the victim
 	 * @param area
-	 *            被災者の存在するエリアのEntityID
+	 *            被災者の存在するエリアのEntityID <br>
+	 *            EntityID of area that the victim exist
 	 * @param hp
-	 *            被災者の体力
+	 *            被災者の体力<br>
+	 *            hp of the victim
 	 * @param buriedness
-	 *            被災者の埋没度
+	 *            被災者の埋没度<br>
+	 *            buriedness of the victim
 	 * @param damage
-	 *            被災者のダメージ
+	 *            被災者のダメージ<br>
+	 *            damage of the victim
 	 */
 	public VictimInformation(int time, EntityID vicID, EntityID area, int hp,
 			int buriedness, int damage) {
@@ -76,21 +98,45 @@ public class VictimInformation extends WorldInformation {
 	 * <p>
 	 * また，vicIDにはCivilianのEntityIDだけではなく，救助隊(platoon)のEntityIDを指定することもできます．
 	 * </p>
+	 * <h2>Constructor</h2> Create the victim information. Included data are
+	 * follow.
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>vicID:EntityID of the victim</li>
+	 * <li>area:EntityID of area that the victim exist</li>
+	 * <li>hp:hp of the victim</li>
+	 * <li>buriedness:buriedness of the victim</li>
+	 * <li>damage:damage of the victim</li>
+	 * <li>cor:location coordinate of the victim({@literal
+	 * Pair<Integer,Integer>})
+	 * </ul>
+	 * Additionally, This message can send the location data of the victim(
+	 * {@literal Pair<Integer,Integer>} ), if location information doesn't
+	 * exist, we get this as (-1,-1).<br>
+	 * And not only EntityID of the civilian, but also EntityID of the platoon
+	 * is assignable as vicID.
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param vicID
-	 *            被災者のEntityID
+	 *            被災者のEntityID <br>
+	 *            EntityID of the victim
 	 * @param area
-	 *            被災者の存在するエリアのEntityID
+	 *            被災者の存在するエリアのEntityID <br>
+	 *            EntityID of area that the victim exist
 	 * @param hp
-	 *            被災者の体力
+	 *            被災者の体力<br>
+	 *            hp of the victim
 	 * @param buriedness
-	 *            被災者の埋没度
+	 *            被災者の埋没度<br>
+	 *            buriedness of the victim
 	 * @param damage
-	 *            被災者のダメージ
+	 *            被災者のダメージ<br>
+	 *            damage of the victim
 	 * @param cor
-	 *            被災者の位置座標
+	 *            被災者の位置座標<br>
+	 *            coordinate of the victim
 	 */
 	public VictimInformation(int time, EntityID vicID, EntityID area, int hp,
 			int buriedness, int damage, Pair<Integer, Integer> cor) {
@@ -107,7 +153,8 @@ public class VictimInformation extends WorldInformation {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ
+	 * コンバート時にシステムが使用するコンストラクタ<br>
+	 * The method that the library use to convert the message.
 	 * 
 	 * @param type
 	 * @param bitList
@@ -120,45 +167,55 @@ public class VictimInformation extends WorldInformation {
 	}
 
 	/**
-	 * 被災者のEntityIDを取得します．
+	 * 被災者のEntityIDを取得します．<br>
+	 * Return EntityID of the victim.
 	 * 
-	 * @return 被災者のEntityID
+	 * @return 被災者のEntityID<br>
+	 *         EntityID
 	 */
 	public EntityID getVictimID() {
 		return super.getID(DataType.HUMAN, 0);
 	}
 
 	/**
-	 * 被災者の体力を取得します．
+	 * 被災者の体力を取得します．<br>
+	 * Return hp of the victim
 	 * 
-	 * @return 被災者の体力
+	 * @return 被災者の体力<br>
+	 *         hp of the victim
 	 */
 	public int getHP() {
 		return super.getHP(0);
 	}
 
 	/**
-	 * 被災者の埋没度を取得します．
+	 * 被災者の埋没度を取得します．<br>
+	 * Return buriedness of the victim
 	 * 
-	 * @return 被災者の埋没度
+	 * @return 被災者の埋没度<br>
+	 *         buriedness
 	 */
 	public int getBuriedness() {
 		return super.getBuriedness(0);
 	}
 
 	/**
-	 * 被災者のダメージを取得します．
+	 * 被災者のダメージを取得します．<br>
+	 * Return damage of the victim
 	 * 
-	 * @return 被災者のダメージ
+	 * @return 被災者のダメージ<br>
+	 *         damage of the victim
 	 */
 	public int getDamage() {
 		return super.getDamage(0);
 	}
 
 	/**
-	 * 被災者のいるエリアのEntityIDを取得します．
+	 * 被災者のいるエリアのEntityIDを取得します． <br>
+	 * Return EntityID of area that the victim exist
 	 * 
-	 * @return 被災者のいるエリアのEntityID
+	 * @return 被災者のいるエリアのEntityID<br>
+	 *         EntityID of area
 	 */
 	public EntityID getAreaID() {
 		return super.getID(DataType.AREA, 0);
@@ -166,11 +223,19 @@ public class VictimInformation extends WorldInformation {
 
 	/**
 	 * 被災者の座標を取得します．<br>
-	 * 設定されていない場合は，(-1,-1)が返されます．
+	 * 設定されていない場合は，(-1,-1)が返されます．<br>
+	 * Return coordinate of the victim({@literal Pair<Integer,Integer>})<br>
+	 * If not be setted, returned (-1,-1).
 	 * 
-	 * @return 被災者の位置座標
+	 * @return 被災者の位置座標<br>
+	 *         coordinate of thSe victim
 	 */
 	public Pair<Integer, Integer> getCoodinate() {
 		return super.getCoodinate(0);
+	}
+
+	@Override
+	public EntityID getEntityID() {
+		return this.getVictimID();
 	}
 }

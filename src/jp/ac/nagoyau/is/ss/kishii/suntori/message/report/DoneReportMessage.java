@@ -8,7 +8,8 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * タスクが完了したことを報告するためのメッセージクラスです．
+ * タスクが完了したことを報告するためのメッセージクラスです．<br>
+ * The DoneReportMessage report that the given instruction is completed.
  * 
  * @author takefumi
  * 
@@ -23,18 +24,28 @@ public class DoneReportMessage extends ReportMessage {
 	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
 	 * <li>platoonID:救助隊のEntityID</li>
 	 * </ul>
+	 * <h2>Constructor</h2> Create the message that report the completion of
+	 * given task. <br>
+	 * Included data are follow.<br>
+	 * <ul>
+	 * <li>time:the time that the message is created.(int)</li>
+	 * <li>platoonID:EntityID of the rescue agent</li>
+	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数
+	 *            ステップ数<br>
+	 *            step num
 	 * @param platoonID
-	 *            救助隊のEntityID
+	 *            救助隊のEntityID<br>
+	 *            EntityID of the rescue agent.
 	 */
 	public DoneReportMessage(int time, EntityID platoonID) {
 		super(BaseMessageType.DONE, time, platoonID);
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ
+	 * コンバート時システムが使用するコンストラクタ <br>
+	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
 	 * @param offset

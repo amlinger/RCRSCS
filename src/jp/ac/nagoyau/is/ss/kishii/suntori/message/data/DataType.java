@@ -2,6 +2,12 @@ package jp.ac.nagoyau.is.ss.kishii.suntori.message.data;
 
 import rescuecore2.worldmodel.EntityID;
 
+/**
+ * This class show that what kind of value the data is.
+ * 
+ * @author takefumi
+ * 
+ */
 public enum DataType {
 	// value type
 	/**
@@ -37,19 +43,99 @@ public enum DataType {
 	 * blockade id.
 	 */
 	BLOCKADE,
-
-	HUMAN, FIRE_BRIGADE, AMBULANCE_TEAM, POLICE_FORCE,
-
+	/**
+	 * id of human agent(pf, fb, at, civ)
+	 */
+	HUMAN,
+	/**
+	 * fb id.
+	 */
+	FIRE_BRIGADE,
+	/**
+	 * at id.
+	 */
+	AMBULANCE_TEAM,
+	/**
+	 * pf id.
+	 */
+	POLICE_FORCE,
+	/**
+	 * id of platoon agent(pf, fb, at)
+	 */
 	PLATOON_AGENT,
-
-	FIRE_STATION, AMBULANCE_CENTER, POLICE_OFFICE,
-
-	CENTER_AGENT, RESCUE_AGENT,
-
-	HP, DAMAGE, BURIEDNESS, FIERYNESS, WATER_POWER, SUPPLY_QUANTITY, REPAIR_COST, BROKENNESS, WATER,
+	/**
+	 * fs id.
+	 */
+	FIRE_STATION,
+	/**
+	 * ac id.
+	 */
+	AMBULANCE_CENTER,
+	/**
+	 * po id.
+	 */
+	POLICE_OFFICE,
+	/**
+	 * id of center(fs, ac, po)
+	 */
+	CENTER_AGENT,
+	/**
+	 * id of rescuer(fb, at, pf, fs, ac, po)
+	 */
+	RESCUE_AGENT,
+	/**
+	 * HP of Agent.
+	 */
+	HP,
+	/**
+	 * Damage of Agent.
+	 */
+	DAMAGE,
+	/**
+	 * Agent buriedness.
+	 */
+	BURIEDNESS,
+	/**
+	 * Agent fieryness.
+	 */
+	FIERYNESS,
+	/**
+	 * discharge water power.
+	 */
+	WATER_POWER,
+	// SUPPLY_QUANTITY,
+	/**
+	 * blockade repair cost.
+	 */
+	REPAIR_COST,
+	/**
+	 * building brokenness.
+	 */
+	BROKENNESS,
+	/**
+	 * water quantity that fb has.
+	 */
+	WATER,
 	// list type
-	ID_LIST, AREA_LIST;
+	/**
+	 * list of entity id.
+	 */
+	@Deprecated
+	ID_LIST,
+	/**
+	 * list of area id.
+	 */
+	AREA_LIST;
 
+	/**
+	 * Return {@link RCRSCSData} created from type and value.
+	 * 
+	 * @param type
+	 *            DataType
+	 * @param value
+	 *            actual value(int)
+	 * @return RCRSCSData
+	 */
 	public static RCRSCSData<?> createData(DataType type, int value) {
 		RCRSCSData<?> res = null;
 		switch (type) {
@@ -61,7 +147,7 @@ public enum DataType {
 		case BURIEDNESS:
 		case FIERYNESS:
 		case WATER_POWER:
-		case SUPPLY_QUANTITY:
+			// case SUPPLY_QUANTITY:
 		case REPAIR_COST:
 		case BROKENNESS:
 		case WATER:
@@ -85,6 +171,14 @@ public enum DataType {
 		return res;
 	}
 
+	/**
+	 * Return {@link EntityIDListData} created from type.<br>
+	 * Here, only ID_LIST and AREA_LIST is accepted.
+	 * 
+	 * @param type
+	 *            {@link DataType}
+	 * @return {@link EntityIDListData}
+	 */
 	public static EntityIDListData createIDListData(DataType type) {
 		EntityIDListData res = null;
 		switch (type) {

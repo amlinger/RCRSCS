@@ -12,7 +12,9 @@ import rescuecore2.standard.entities.StandardEntity;
 import rescuecore2.standard.messages.AKSpeak;
 
 /**
- * メッセージ通信ライブラリを使用して通信するエージェント用のabstractエージェント
+ * メッセージ通信ライブラリを使用して通信するエージェント用のabstractエージェント<br>
+ * The RCRCSAgent represent The Abstract Agent that have method that convert
+ * messages by using this library.
  * 
  * @author takefumi
  * 
@@ -25,7 +27,10 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	private int messageChannel;
 
 	/**
-	 * コンストラクタ
+	 * コンストラクタ <br>
+	 * Constructor<br>
+	 * Prepare sended message list and received message list. Additionally,
+	 * initialize 'message channel' = -1
 	 */
 	public RCRSCSAgent() {
 		this.messageList = new ArrayList<RCRSCSMessage>();
@@ -34,6 +39,9 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	}
 
 	@Override
+	/**
+	 * Initialize message converter.
+	 */
 	protected void postConnect() {
 		super.postConnect();
 		this.messageConverter = new RCRSCSMessageConverter(me().getID(),
@@ -41,7 +49,8 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	}
 
 	/**
-	 * メッセージ送受信チャンネルを設定します．
+	 * メッセージ送受信チャンネルを設定します．<br>
+	 * Set the message channel used in sending messages.
 	 * 
 	 * @param channel
 	 *            送受信チャンネル
@@ -51,7 +60,8 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	}
 
 	/**
-	 * 現在設定されている送受信チャンネルを取得します．
+	 * 現在設定されている送受信チャンネルを取得します． <br>
+	 * Get the using message channel.
 	 * 
 	 * @return 送受信チャンネル
 	 */
@@ -61,7 +71,10 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 
 	/**
 	 * メッセージを受信します．<br>
-	 * 送受信チャンネルに設定されているチャンネルから送られてきたデータに対してコンバートを行います．
+	 * 送受信チャンネルに設定されているチャンネルから送られてきたデータに対してコンバートを行います．<br>
+	 * Receive messages.<br>
+	 * In this method, only messages sended from the set channel will be
+	 * converted.
 	 * 
 	 * @param heard
 	 */
@@ -81,7 +94,8 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	}
 
 	/**
-	 * 送信するメッセージを追加します．
+	 * 送信するメッセージを追加します．<br>
+	 * Add sended message.
 	 * 
 	 * @param message
 	 */
@@ -90,7 +104,8 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	}
 
 	/**
-	 * 追加されたメッセージを送信します．
+	 * 追加されたメッセージを送信します．<br>
+	 * Send message by using the set channel.
 	 * 
 	 * @param time
 	 */
@@ -104,7 +119,9 @@ abstract class RCRSCSAgent<E extends StandardEntity> extends StandardAgent<E> {
 	@Override
 	/**
 	 * チャンネルがメッセージ送受信チャンネルであった場合，メッセージ送信を行い，
-	 * 異なった場合，通常のsendSpeakを行います．
+	 * 異なった場合，通常のsendSpeakを行います．<br>
+	 * If specified channel equals the set channel, execute sendMessage method.
+	 * Otherwise, execute sendSpeak method.
 	 */
 	protected final void sendSpeak(int time, int channel, byte[] data) {
 		if (channel == this.messageChannel) {
