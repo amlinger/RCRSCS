@@ -10,7 +10,6 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.ValueData;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 消防隊の情報を表すクラスです．<br>
  * This class show the Fire Brigade information.
  * 
  * @author takefumi
@@ -19,18 +18,6 @@ import rescuecore2.worldmodel.EntityID;
 public class FireBrigadeInformation extends WorldInformation {
 
 	/**
-	 * コンストラクタ<br>
-	 * 消防隊情報を生成します．<br>
-	 * 含まれる情報は以下のものです．
-	 * <ul>
-	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
-	 * <li>fbID:消防隊のEntityID</li>
-	 * <li>hp:消防隊の体力</li>
-	 * <li>damage:ダメージ</li>
-	 * <li>buriedness:消防隊の埋没度</li>
-	 * <li>water:タンクの残存水量</li>
-	 * <li>areaID:消防隊が現在存在するエリアのEntityID</li>
-	 * </ul>
 	 * <h2>Constructor</h2> Create the information of fire brigade<br>
 	 * Included data are follow.
 	 * <ul>
@@ -44,24 +31,18 @@ public class FireBrigadeInformation extends WorldInformation {
 	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数<br>
 	 *            step num
 	 * @param fbID
 	 *            EntityID
 	 * @param hp
-	 *            体力<br>
 	 *            hp of the fb
 	 * @param damage
-	 *            ダメージ<br>
 	 *            damage of the fb
 	 * @param buriedness
-	 *            埋没度<br>
 	 *            buriedness of the fb
 	 * @param water
-	 *            残存水量<br>
 	 *            amount of left water
 	 * @param areaID
-	 *            エリアのEntityID<br>
 	 *            EntityID of area
 	 */
 	public FireBrigadeInformation(int time, EntityID fbID, int hp, int damage,
@@ -76,7 +57,6 @@ public class FireBrigadeInformation extends WorldInformation {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ<br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
@@ -89,10 +69,9 @@ public class FireBrigadeInformation extends WorldInformation {
 	}
 
 	/**
-	 * 消防隊のEntityIDを取得します．<br>
 	 * Return EntityID of the fb.
 	 * 
-	 * @return 消防隊のID<br>
+	 * @return 
 	 *         EntityID
 	 */
 	public EntityID getFireBrigadeID() {
@@ -100,10 +79,9 @@ public class FireBrigadeInformation extends WorldInformation {
 	}
 
 	/**
-	 * 消防隊の体力を取得します．<br>
 	 * Return hp of the fb.
 	 * 
-	 * @return 体力<br>
+	 * @return 
 	 *         hp of the fb
 	 */
 	public int getHP() {
@@ -111,10 +89,9 @@ public class FireBrigadeInformation extends WorldInformation {
 	}
 
 	/**
-	 * 消防隊のダメージを取得します．<br>
 	 * Return damage of the fb.
 	 * 
-	 * @return ダメージ<br>
+	 * @return 
 	 *         damage
 	 */
 	public int getDamage() {
@@ -122,10 +99,9 @@ public class FireBrigadeInformation extends WorldInformation {
 	}
 
 	/**
-	 * 消防隊の埋没度を取得します．<br>
 	 * Return buriedness of the fb.
 	 * 
-	 * @return 埋没度<br>
+	 * @return 
 	 *         buriedness
 	 */
 	public int getBuriedness() {
@@ -133,10 +109,9 @@ public class FireBrigadeInformation extends WorldInformation {
 	}
 
 	/**
-	 * 消防隊の保有している水量を取得します．<br>
 	 * Return amount of left water.
 	 * 
-	 * @return 残存水量 <br>
+	 * @return 
 	 *         quantity.
 	 */
 	public int getWater() {
@@ -144,10 +119,9 @@ public class FireBrigadeInformation extends WorldInformation {
 	}
 
 	/**
-	 * 消防隊が現在存在しているエリアのEntityIDを取得します．<br>
 	 * Return EntityID of area that the fb is standing.
 	 * 
-	 * @return エリアのEntityID<br>
+	 * @return 
 	 *         EntityID of area
 	 */
 	public EntityID getPositionID() {

@@ -8,7 +8,6 @@ package jp.ac.nagoyau.is.ss.kishii.suntori.message.data;
  */
 public class ValueData extends RCRSCSData<Integer> {
 	/**
-	 * コンストラクタ<br>
 	 * Constructor
 	 * 
 	 * @param type
@@ -20,7 +19,6 @@ public class ValueData extends RCRSCSData<Integer> {
 	}
 
 	/**
-	 * コンストラクタ<br>
 	 * Constructor
 	 * 
 	 * @param type

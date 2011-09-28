@@ -11,7 +11,6 @@ import rescuecore2.worldmodel.EntityID;
 public class EntityIDData extends RCRSCSData<EntityID> {
 
 	/**
-	 * コンストラクタ<br>
 	 * Constructor
 	 * 
 	 * @param type

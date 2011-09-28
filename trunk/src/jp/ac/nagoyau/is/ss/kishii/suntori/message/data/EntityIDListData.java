@@ -14,7 +14,6 @@ import rescuecore2.worldmodel.EntityID;
 public class EntityIDListData extends RCRSCSData<List<EntityID>> {
 
 	/**
-	 * コンストラクタ<br>
 	 * Constructor
 	 * 
 	 * @param type
@@ -28,8 +27,6 @@ public class EntityIDListData extends RCRSCSData<List<EntityID>> {
 	}
 
 	/**
-	 * コンストラクタ<br>
-	 * valueには空のリストを代入する.<br>
 	 * Constructor<br>
 	 * In this method, value is empty list.
 	 * 
@@ -46,7 +43,6 @@ public class EntityIDListData extends RCRSCSData<List<EntityID>> {
 	}
 
 	/**
-	 * valueに値を追加する.<br>
 	 * Add obj(EntityID) to value.
 	 * 
 	 * @param obj

@@ -18,17 +18,6 @@ import rescuecore2.worldmodel.EntityID;
 public class PoliceForceInformation extends WorldInformation {
 
 	/**
-	 * コンストラクタ<br>
-	 * 啓開隊情報を生成します．<br>
-	 * 含まれる情報は以下のものです．
-	 * <ul>
-	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
-	 * <li>pfID:啓開隊のEntityID</li>
-	 * <li>hp:啓開隊の体力</li>
-	 * <li>damage:ダメージ</li>
-	 * <li>buriedness:啓開隊の埋没度</li>
-	 * <li>areaID:啓開隊が現在存在するエリアのEntityID</li>
-	 * </ul>
 	 * <h2>Constructor</h2> Create the information of the police force.<br>
 	 * Included data are follow.
 	 * <ul>
@@ -41,28 +30,22 @@ public class PoliceForceInformation extends WorldInformation {
 	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数<br>
 	 *            step num
 	 * @param pfID
-	 *            啓開隊のID<br>
 	 *            EntityID of the pf
 	 * @param hp
-	 *            体力<br>
 	 *            hp of the pf
 	 * @param damage
-	 *            ダメージ<br>
 	 *            damage of the pf
 	 * @param buriedness
-	 *            埋没度<br>
 	 *            buriedness of the pf
 	 * @param areaID
-	 *            現在いるエリア<br>
 	 *            EntityID of area
 	 */
-	public PoliceForceInformation(int time, EntityID fbID, int hp, int damage,
+	public PoliceForceInformation(int time, EntityID pfID, int hp, int damage,
 			int buriedness, EntityID areaID) {
 		super(BaseMessageType.POLICE_FORCE, time);
-		this.setData(new EntityIDData(DataType.POLICE_FORCE, fbID));
+		this.setData(new EntityIDData(DataType.POLICE_FORCE, pfID));
 		this.setData(new ValueData(DataType.HP, hp));
 		this.setData(new ValueData(DataType.DAMAGE, damage));
 		this.setData(new ValueData(DataType.BURIEDNESS, buriedness));
@@ -70,7 +53,6 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ<br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
@@ -83,10 +65,9 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * PFのEntityIDを取得します．<br>
 	 * Return EntityID of the pf.
 	 * 
-	 * @return 啓開隊のEntityID<br>
+	 * @return 
 	 *         EntityID
 	 */
 	public EntityID getPoliceForceID() {
@@ -94,10 +75,9 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * PFの体力を取得します．<br>
 	 * Return hp of the pf.
 	 * 
-	 * @rketurn 体力<br>
+	 * @rketurn 
 	 *          hp
 	 */
 	public int getHP() {
@@ -105,10 +85,9 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * ダメージを取得します．<br>
 	 * Return damege of the pf.
 	 * 
-	 * @return ダメージ<br>
+	 * @return 
 	 *         damage
 	 */
 	public int getDamage() {
@@ -116,10 +95,9 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * PFの埋没度を取得します．<br>
 	 * Return buryedness of the pf.
 	 * 
-	 * @return 埋没度<br>
+	 * @return 
 	 *         buryedness
 	 */
 	public int getBuriedness() {
@@ -127,10 +105,9 @@ public class PoliceForceInformation extends WorldInformation {
 	}
 
 	/**
-	 * PFが現在いるエリアのEntityID<br>
 	 * Return EntityID of area that the pf is standing.
 	 * 
-	 * @return エリアのEntityID<br>
+	 * @return 
 	 *         EntityID
 	 */
 	public EntityID getPositionID() {

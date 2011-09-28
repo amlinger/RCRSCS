@@ -11,7 +11,6 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.EntityIDListData;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * タスクを表現するためのメッセージクラスです．<br>
  * The TaskMessage is the message class express the task.
  * 
  * @author takefumi
@@ -19,8 +18,6 @@ import rescuecore2.worldmodel.EntityID;
  */
 public abstract class TaskMessage extends RCRSCSMessage implements ITaskMessage {
 	/**
-	 * コンストラクタ<br>
-	 * タスクを生成します．<br>
 	 * <h2>Constructor</h2>Create the task.
 	 * 
 	 * @param type
@@ -33,7 +30,6 @@ public abstract class TaskMessage extends RCRSCSMessage implements ITaskMessage 
 	}
 
 	/**
-	 * コンバート時システムが使用するコンストラクタ <br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param type
@@ -52,11 +48,10 @@ public abstract class TaskMessage extends RCRSCSMessage implements ITaskMessage 
 	}
 
 	/**
-	 * タスク実行対象となるエージェント(救助隊)のEntityIDを取得します．<br>
 	 * Return EntityID of rescue agent that have to execute this task.
 	 * 
 	 * 
-	 * @return 救助隊のEntityIDを取得します．<br>
+	 * @return 
 	 *         EntityID of rescue agent
 	 */
 	public EntityID getAssignedAgentID() {
@@ -64,10 +59,9 @@ public abstract class TaskMessage extends RCRSCSMessage implements ITaskMessage 
 	}
 
 	/**
-	 * メッセージ送信者のEntityIDを取得します．<br>
 	 * Return EntityID of the agent that sent this message.
 	 * 
-	 * @return　メッセージ送信者のEntityID<br>
+	 * @return 
 	 *         EntityID of the agent(at, ac, pf, po, fb, fs)
 	 */
 	public EntityID getMessageOwnerID() {

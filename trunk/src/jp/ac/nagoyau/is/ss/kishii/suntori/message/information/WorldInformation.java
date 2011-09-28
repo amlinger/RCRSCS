@@ -9,8 +9,7 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 災害空間における情報を表現するためのabstract classです．<br>
- * The　abstract class represent the information that can obtain from the
+ * The abstract class represent the information that can obtain from the
  * disaster space.
  * 
  * @author takefumi
@@ -18,7 +17,6 @@ import rescuecore2.worldmodel.EntityID;
  */
 public abstract class WorldInformation extends RCRSCSMessage {
 	/**
-	 * コンストラクタ<br>
 	 * <h2>Constructor</h2>
 	 * 
 	 * @param type
@@ -29,7 +27,6 @@ public abstract class WorldInformation extends RCRSCSMessage {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ<br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param type
@@ -42,10 +39,5 @@ public abstract class WorldInformation extends RCRSCSMessage {
 		super(type, bitList, offset, bitSizeMap);
 	}
 
-	/**
-	 * この情報の実体のEntityIDを取得します.
-	 * 
-	 * @return
-	 */
 	public abstract EntityID getEntityID();
 }

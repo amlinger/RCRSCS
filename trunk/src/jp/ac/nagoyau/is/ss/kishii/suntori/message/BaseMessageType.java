@@ -29,7 +29,6 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.DataType;
  * 
  */
 public enum BaseMessageType {
-	// オレオレメッセージ
 	UNPASSABLE(new DataType[] { DataType.PLATOON_AGENT, DataType.AREA,
 			DataType.AREA, DataType.BLOCKADE }),
 

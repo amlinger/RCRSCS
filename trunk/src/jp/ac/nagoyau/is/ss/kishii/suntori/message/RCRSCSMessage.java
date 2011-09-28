@@ -13,7 +13,6 @@ import rescuecore2.misc.Pair;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * メッセージを表すクラスです．<br>
  * This class represent the transmitted message.
  * 
  * @author takefumi
@@ -25,7 +24,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	protected List<RCRSCSData<?>> data;
 
 	/**
-	 * コンストラクタ<br>
 	 * <h2>Constructor</h2>
 	 * 
 	 * @param type
@@ -43,7 +41,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * コンストラクタ<br>
 	 * <h2>Constructor</h2>
 	 * 
 	 * @param data
@@ -56,7 +53,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ <br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param type
@@ -105,7 +101,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * メッセージのビットサイズを取得します．<br>
 	 * Return bit num of this message.
 	 * 
 	 * @param bitSizeMap
@@ -202,8 +197,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * メッセージが送信に必要なデータを持っているかを確認するメソッドです．<br>
-	 * いまだ登録されていないデータが存在するときはfalseを返します．<br>
 	 * This method confirm whether data necessary for sending message are
 	 * existing.<br>
 	 * If not, return false.
@@ -223,7 +216,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * メッセージの種類を取得します．<br>
 	 * Return type of this message.
 	 * 
 	 * @return type of message
@@ -265,7 +257,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * 指定されたDataTypeかつ指定番目のデータを取得します．<br>
 	 * Return data that have specified DataType and index.<br>
 	 * This method is only used in the class extending this class.
 	 * 
@@ -303,7 +294,6 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * 指定されたDataTypeかつ指定番目のデータ(EntityID)を取得します．<br>
 	 * Return data(EntityID) that have specified DataType and index.<br>
 	 * This method is only used in the class extending this class.
 	 * 
@@ -327,6 +317,10 @@ public abstract class RCRSCSMessage implements IMessage {
 		return res;
 	}
 
+	/**
+	 * @param index
+	 * @return
+	 */
 	protected int getHP(int index) {
 		int res = -1;
 		RCRSCSData<?> d = this.getData(DataType.HP, index);
@@ -340,7 +334,7 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * メッセージを生成したステップ数を取得します．
+	 * Return stem num that the message is created.
 	 * 
 	 * @param index
 	 * @return
@@ -358,9 +352,9 @@ public abstract class RCRSCSMessage implements IMessage {
 	}
 
 	/**
-	 * メッセージを生成したステップ数を取得します．
+	 * Return stem num that the message is created.
 	 * 
-	 * @return ステップ数
+	 * @return stem num
 	 */
 	public int getSendTime() {
 		return this.getSendTime(0);
