@@ -5,7 +5,6 @@ import java.util.Comparator;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * EntityIDのリストを昇順に並べなおすためのコンパレータクラスです．<br>
  * The EntityIDComparator is Comparator class to sort in ascending order.
  * 
  * @author takefumi

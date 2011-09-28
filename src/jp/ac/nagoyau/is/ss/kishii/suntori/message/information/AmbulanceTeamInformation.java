@@ -10,7 +10,6 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.ValueData;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 救急隊の情報を表すクラスです． <br>
  * This class represent the information of Ambulance Team.
  * 
  * @author takefumi
@@ -18,18 +17,6 @@ import rescuecore2.worldmodel.EntityID;
  */
 public class AmbulanceTeamInformation extends WorldInformation {
 	/**
-	 * コンストラクタ<br>
-	 * 救急隊情報を生成します．<br>
-	 * 含まれる情報は以下のものです．
-	 * <ul>
-	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
-	 * <li>atID:救急隊のEntityID</li>
-	 * <li>hp:救急隊の体力</li>
-	 * <li>damage:ダメージ</li>
-	 * <li>buriedness:救急隊の埋没度</li>
-	 * <li>areaID:救急隊が現在存在するエリアのEntityID</li>
-	 * </ul>
-	 * <br>
 	 * <h2>Constructor</h2> Create the Ambulance Team Information.<br>
 	 * Included data are follow.<br>
 	 * <ul>
@@ -42,22 +29,16 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数<br>
 	 *            step num.
 	 * @param atID
-	 *            救急隊のID<br>
 	 *            EntityID of at.
 	 * @param hp
-	 *            体力 <br>
 	 *            hp of the at.
 	 * @param damage
-	 *            ダメージ<br>
 	 *            damage of the at.
 	 * @param buriedness
-	 *            埋没度 <br>
 	 *            buriedness of the at.
 	 * @param areaID
-	 *            現在いるエリア <br>
 	 *            EntityID of area that the at is standing.
 	 */
 	public AmbulanceTeamInformation(int time, EntityID atID, int hp,
@@ -71,9 +52,6 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	}
 
 	/**
-	 * コンストラクタ<br>
-	 * 与えられたビット列からこのクラスを生成します．<br>
-	 * このコンストラクタはシステムが使用するためのメソッドです．<br>
 	 * <h2>Constructor</h2> Create the instance of this class from bit sequence.<br>
 	 * This method is defined for this library.
 	 * 
@@ -87,10 +65,9 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	}
 
 	/**
-	 * ATのIDを取得します．<br>
 	 * Return EntityID of at.
 	 * 
-	 * @return ATのID<br>
+	 * @return 
 	 *         EntityID of at.
 	 */
 	public EntityID getAmbulanceTeamID() {
@@ -98,10 +75,9 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	}
 
 	/**
-	 * ATの体力を取得します．<br>
 	 * Return hp of the at.
 	 * 
-	 * @return 体力<br>
+	 * @return 
 	 *         hp
 	 */
 	public int getHP() {
@@ -109,10 +85,9 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	}
 
 	/**
-	 * ATのダメージを取得します．<br>
 	 * Return damage of the at.
 	 * 
-	 * @return ダメージ <br>
+	 * @return 
 	 *         damage
 	 */
 	public int getDamage() {
@@ -120,10 +95,9 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	}
 
 	/**
-	 * ATの埋没度を取得します．<br>
 	 * Return buriedness of the at.
 	 * 
-	 * @return 埋没度<br>
+	 * @return 
 	 *         buriedness
 	 */
 	public int getBuriedness() {
@@ -131,10 +105,9 @@ public class AmbulanceTeamInformation extends WorldInformation {
 	}
 
 	/**
-	 * ATが現在いるエリアのEntityID<br>
 	 * Return EntityID of area that the at is standing.
 	 * 
-	 * @return エリアのEntityID<br>
+	 * @return 
 	 *         EntityID of area
 	 */
 	public EntityID getPositionID() {

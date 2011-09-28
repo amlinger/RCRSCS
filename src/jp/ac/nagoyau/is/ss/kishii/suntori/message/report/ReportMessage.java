@@ -10,7 +10,6 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.EntityIDData;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 報告メッセージを表現するためのメッセージクラスです．<br>
  * The abstract class show the report message.
  * 
  * @author takefumi
@@ -23,7 +22,6 @@ public abstract class ReportMessage extends RCRSCSMessage {
 	}
 
 	/**
-	 * コンバート時システムが使用するコンストラクタ <br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param type
@@ -37,10 +35,9 @@ public abstract class ReportMessage extends RCRSCSMessage {
 	}
 
 	/**
-	 * メッセージを送信したエージェント(救助隊)のEntityIDを取得します．<br>
 	 * Return EntityID of the rescue agent that send this message.
 	 * 
-	 * @return 救助隊のEntityID<br>
+	 * @return 
 	 *         EntityID of the rescue agent.
 	 */
 	public EntityID getAssignedAgentID() {

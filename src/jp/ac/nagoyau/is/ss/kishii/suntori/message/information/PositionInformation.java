@@ -10,7 +10,6 @@ import rescuecore2.misc.Pair;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 救助隊の位置座標情報を表すクラスです．<br>
  * The class represent the location information of rescue agent.
  * 
  * @author takefumi
@@ -18,14 +17,6 @@ import rescuecore2.worldmodel.EntityID;
  */
 public class PositionInformation extends WorldInformation {
 	/**
-	 * コンストラクタ<br>
-	 * 救助隊の位置座標情報を生成します．<br>
-	 * 含まれる情報は以下のものです．
-	 * <ul>
-	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
-	 * <li>agentID:救助隊のEntityID</li>
-	 * <li>coordinate:救助隊の現在位置座標</li>
-	 * </ul>
 	 * <h2>Constructor</h2> Create the information of the agent's location.<br>
 	 * Included data are follow.
 	 * <ul>
@@ -35,13 +26,12 @@ public class PositionInformation extends WorldInformation {
 	 * </ul>
 	 * 
 	 * @param time
-	 *            ステップ数<br>
+	 *            
 	 *            step num
 	 * @param platoonID
-	 *            救助隊のEntityID<br>
+	 *            
 	 *            EntityID of the rescue agent
 	 * @param cor
-	 *            救助隊の位置座標<br>
 	 *            agent location
 	 */
 	public PositionInformation(int time, EntityID platoonID,
@@ -52,7 +42,6 @@ public class PositionInformation extends WorldInformation {
 	}
 
 	/**
-	 * コンバート時にシステムが使用するコンストラクタ<br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
@@ -65,10 +54,9 @@ public class PositionInformation extends WorldInformation {
 	}
 
 	/**
-	 * 救助隊のEntityIDを取得します．<br>
 	 * Return EntityID of the rescue agent.
 	 * 
-	 * @return 救助隊のEntityID<br>
+	 * @return 
 	 *         EntityID
 	 */
 	public EntityID getAgentID() {
@@ -76,10 +64,9 @@ public class PositionInformation extends WorldInformation {
 	}
 
 	/**
-	 * 救助隊の位置座標を取得します．<br>
 	 * Return the coordinate of the agent.
 	 * 
-	 * @return 位置座標<br>
+	 * @return 
 	 *         coordinate({@literal Pair<Integer,Integer>})
 	 */
 	public Pair<Integer, Integer> getCoordinate() {

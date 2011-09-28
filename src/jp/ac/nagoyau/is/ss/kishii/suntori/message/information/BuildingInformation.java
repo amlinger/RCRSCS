@@ -10,7 +10,6 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.data.ValueData;
 import rescuecore2.worldmodel.EntityID;
 
 /**
- * 建物の情報を表すクラスです．<br>
  * The BuildingInformation show the building information.
  * 
  * @author takefumi
@@ -19,15 +18,6 @@ import rescuecore2.worldmodel.EntityID;
 public class BuildingInformation extends WorldInformation {
 
 	/**
-	 * コンストラクタ<br>
-	 * 建物の情報を生成します．<br>
-	 * 含まれる情報は以下のものです．
-	 * <ul>
-	 * <li>time:情報生成時に設定した(情報が作成されたと考えられる)時間</li>
-	 * <li>buildingID:建物のEntityID</li>
-	 * <li>fieryness:建物の燃焼度</li>
-	 * <li>brokenness:建物の倒壊度</li>
-	 * </ul>
 	 * <h2>Constructor</h2> Create the inforamtion of building.<br>
 	 * Included data are follow.<br>
 	 * <ul>
@@ -56,7 +46,6 @@ public class BuildingInformation extends WorldInformation {
 	}
 
 	/**
-	 * コンバート時システムが使用するコンストラクタ <br>
 	 * The method that the library use to convert the message.
 	 * 
 	 * @param bitList
@@ -69,10 +58,9 @@ public class BuildingInformation extends WorldInformation {
 	}
 
 	/**
-	 * 建物のEntityIDを取得します．<br>
 	 * Return EntityID of the building.
 	 * 
-	 * @return 建物のID<br>
+	 * @return 
 	 *         EntityID
 	 */
 	public EntityID getBuildingID() {
@@ -80,10 +68,9 @@ public class BuildingInformation extends WorldInformation {
 	}
 
 	/**
-	 * 建物の倒壊度を取得します．<br>
 	 * Return brokenness of the building.
 	 * 
-	 * @return 倒壊度<br>
+	 * @return 
 	 *         brokenness
 	 */
 	public int getBrokenness() {
@@ -91,10 +78,9 @@ public class BuildingInformation extends WorldInformation {
 	}
 
 	/**
-	 * 燃焼度を取得します．<br>
 	 * Return fieryness of the building.
 	 * 
-	 * @return 燃焼度<br>
+	 * @return 
 	 *         fieryness
 	 */
 	public int getFieryness() {
