@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="build-Jar" default="build">
+	<description>
+		create jar file.
+	</description>
+
+	<property name="jardir" location="./release" />
+	<property name="jarfile" location="./release/rcrscs.jar" />
+
+	<property name="srcdir" location="./src" />
+	<property name="classdir" location="./bin" />
+
+	<property name="javadoc.dir" value="./javadoc" />
+	<property name="package" value="jp.ac.nagoyau.is.ss.kishii.suntori" />
+
+	<target name="build">
+		<antcall target="default">
+		</antcall>
+		<!--
+				<antcall target="javadoc">
+		</antcall> 
+		-->
+		<description>finish</description>
+	</target>
+
+	<target name="default" depends="compile" description="create jar file">
+		<mkdir dir="${jardir}" />
+		<jar destfile="${jarfile}">
+			<fileset dir="${classdir}" id="class">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="compile">
+		<javac srcdir="${srcdir}" destdir="${classdir}" encoding="UTF-8" />
+	</target>
+
+	<target name="javadoc">
+		<delete dir="${javadoc.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc sourcepath="${srcdir}" destdir="${javadoc.dir}" encoding="UTF-8" charset="UTF-8" access="protected" />
+	</target>
+</project>
