@@ -847,34 +847,14 @@ public class RCRSCSMessageConverter {
 		byte[] res = null;
 		if (messages.size() > 0) {
 			List<Integer> bitList = new ArrayList<Integer>();
-			List<String> outs = new ArrayList<String>();
 			for (RCRSCSMessage m : messages) {
 				List<Integer> bits = messageToBit(m);
 				bitList.addAll(bits);
-				outs.add(m.getClass() + ":::::" + bits.size());
 			}
 			messages.clear();
 			res = getBytes(bitList);
 			if (debug) {
 				System.out.println("bitList size :" + bitList.size());
-			}
-			if (outs.size() > 0) {
-				try {
-					FileOutputStream fos = new FileOutputStream("./data/"
-							+ this.ownerID.getValue() + ".dat", true);
-					OutputStreamWriter osw = new OutputStreamWriter(fos);
-					BufferedWriter bw = new BufferedWriter(osw);
-					for (String line : outs) {
-						bw.write(line+"\n");
-					}
-					bw.close();
-					osw.close();
-					fos.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 		return res;
