@@ -925,9 +925,6 @@ public class RCRSCSMessageConverter {
 					+ message.getMessageType());
 			res.clear();
 		}
-		if (message instanceof ExtinguishAreaTaskMessage) {
-			System.out.println("convert message eat " + res);
-		}
 		return res;
 	}
 
