@@ -656,9 +656,6 @@ public class RCRSCSMessageConverter {
 	 * @return
 	 */
 	private TaskMessage filteringTask(List<TaskMessage> taskList) {
-		if (ownerID.getValue() == 64700) {
-			System.out.println("task size:" + taskList.size());
-		}
 		TaskMessage res = null;
 		DataType currentType = null;
 		for (TaskMessage task : taskList) {
@@ -667,9 +664,6 @@ public class RCRSCSMessageConverter {
 			DataType type = this.getAgentType(agId);
 			if (type != null && canExecute(task, type)) {
 				if (this.isCenter(moId)) {
-					if (ownerID.getValue() == 64700) {
-						System.out.println("message owner is center");
-					}
 					if (this.isBelong(type, this.agentType)) {
 						res = task;
 						break;
