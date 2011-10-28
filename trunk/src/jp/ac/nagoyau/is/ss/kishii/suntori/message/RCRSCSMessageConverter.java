@@ -1,10 +1,5 @@
 package jp.ac.nagoyau.is.ss.kishii.suntori.message;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -637,6 +632,7 @@ public class RCRSCSMessageConverter {
 				break;
 			}
 		}
+		// count = 0;
 		TaskMessage task = filteringTask(taskList);
 		if (task != null) {
 			res.add(task);
@@ -646,6 +642,8 @@ public class RCRSCSMessageConverter {
 		}
 		return res;
 	}
+
+	private int count = 0;
 
 	/**
 	 * Filter the given task subject to the following conditions.<br>
@@ -658,13 +656,20 @@ public class RCRSCSMessageConverter {
 	 * @return
 	 */
 	private TaskMessage filteringTask(List<TaskMessage> taskList) {
+		if (ownerID.getValue() == 64700) {
+			System.out.println("task size:" + taskList.size());
+		}
 		TaskMessage res = null;
 		DataType currentType = null;
 		for (TaskMessage task : taskList) {
-			EntityID id = task.getMessageOwnerID();
-			DataType type = this.getAgentType(id);
+			EntityID moId = task.getMessageOwnerID();
+			EntityID agId = task.getAssignedAgentID();
+			DataType type = this.getAgentType(agId);
 			if (type != null && canExecute(task, type)) {
-				if (this.isCenter(id)) {
+				if (this.isCenter(moId)) {
+					if (ownerID.getValue() == 64700) {
+						System.out.println("message owner is center");
+					}
 					if (this.isBelong(type, this.agentType)) {
 						res = task;
 						break;
@@ -926,6 +931,9 @@ public class RCRSCSMessageConverter {
 					+ message.getMessageType());
 			res.clear();
 		}
+		if (message instanceof ExtinguishAreaTaskMessage) {
+			System.out.println("convert message eat " + res);
+		}
 		return res;
 	}
 
@@ -1097,6 +1105,31 @@ public class RCRSCSMessageConverter {
 			res = (int) Math.ceil(Math.log10(value) / Math.log10(2.0d));
 		}
 		return res;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ownerID == null) ? 0 : ownerID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RCRSCSMessageConverter other = (RCRSCSMessageConverter) obj;
+		if (ownerID == null) {
+			if (other.ownerID != null)
+				return false;
+		} else if (!ownerID.equals(other.ownerID))
+			return false;
+		return true;
 	}
 
 }
