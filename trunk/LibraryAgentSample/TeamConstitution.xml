@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<team xmlns="http://www.example.org/1.0">
+	<agent>
+		<notice>SpecializedOBFireBrigade</notice>
+		<!--
+			<classPath>jp.ac.nagoyau.is.ss.kishii.ob.team.center.fs.specialize.SpecializedOBFireBrigade
+			</classPath>
+		-->
+		<classPath>jp.ac.nagoyau.is.ss.kishii.ob.team.center.fs.specialize.SpecializedOBFireBrigade
+		</classPath>
+	</agent>
+	<agent>
+		<notice>OBSampleAmbulanceTeam</notice>
+		<classPath>jp.ac.nagoyau.is.ss.kishii.ob.team.sample.SampleOBAmbulanceTeam
+		</classPath>
+	</agent>
+	<agent>
+		<notice>OBSamplePoliceForce</notice>
+		<classPath>jp.ac.nagoyau.is.ss.kishii.ob.team.sample.SampleOBPoliceForce
+		</classPath>
+	</agent>
+	<agent>
+		<notice>SVMCommandCenter</notice>
+		<classPath>jp.ac.nagoyau.is.ss.kishii.ob.team.center.fs.specialize.SpecializedOBFireStation
+		</classPath>
+		<num>1</num>
+	</agent>
+	<agent>
+		<notice>Center</notice>
+		<classPath>sample.SampleCentre
+		</classPath>
+	</agent>
+</team>
+
