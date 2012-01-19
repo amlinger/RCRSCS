@@ -1,0 +1,103 @@
+package jp.ac.nagoyau.is.ss.kishii.ob.primitive.perceptron;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.ac.nagoyau.is.ss.kishii.ob.primitive.TeacherData;
+
+public class PercepTest {
+	public static void main(String[] args) {
+		TwoClassPerceptron perc = new TwoClassPerceptron(3, 0.2, -1);
+		List<TeacherData> dataList = new ArrayList<TeacherData>();
+		List<Double> fList = new ArrayList<Double>();
+		fList.add(0d);
+		fList.add(0d);
+		fList.add(1d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		fList = new ArrayList<Double>();
+		fList.add(1d);
+		fList.add(0d);
+		fList.add(1d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		fList = new ArrayList<Double>();
+		fList.add(0d);
+		fList.add(1d);
+		fList.add(1d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		fList = new ArrayList<Double>();
+		fList.add(1d);
+		fList.add(1d);
+		fList.add(0d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		fList = new ArrayList<Double>();
+		fList.add(0d);
+		fList.add(0d);
+		fList.add(0d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		fList = new ArrayList<Double>();
+		fList.add(1d);
+		fList.add(0d);
+		fList.add(0d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		fList = new ArrayList<Double>();
+		fList.add(0d);
+		fList.add(1d);
+		fList.add(0d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		fList = new ArrayList<Double>();
+		fList.add(1d);
+		fList.add(0d);
+		fList.add(0.5);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		fList = new ArrayList<Double>();
+		fList.add(0.1d);
+		fList.add(1d);
+		fList.add(0.1);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		perc.learn(dataList);
+		dataList = new ArrayList<TeacherData>();
+		fList = new ArrayList<Double>();
+		fList.add(1d);
+		fList.add(1d);
+		fList.add(1d);
+		dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+
+		perc.test(dataList);
+		// TwoClassPerceptron perc = new TwoClassPerceptron(1, 0.2);
+		// List<TeacherData> dataList = new ArrayList<TeacherData>();
+		// List<Double> fList = new ArrayList<Double>();
+		// fList.add(0d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		// fList = new ArrayList<Double>();
+		// fList.add(1d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		// fList = new ArrayList<Double>();
+		// fList.add(2d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		// fList = new ArrayList<Double>();
+		// fList.add(1.5d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		// fList = new ArrayList<Double>();
+		// fList.add(3d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		// fList = new ArrayList<Double>();
+		// fList.add(4d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		// fList = new ArrayList<Double>();
+		// fList.add(5d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		// fList = new ArrayList<Double>();
+		// fList.add(3.5);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		// fList = new ArrayList<Double>();
+		// fList.add(4.6);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 2));
+		// perc.learn(dataList);
+		// dataList = new ArrayList<TeacherData>();
+		// fList = new ArrayList<Double>();
+		// fList.add(1d);
+		// dataList.add(new TeacherData(new PerceptronFeature(fList), 1));
+		//
+		// perc.test(dataList);
+	}
+}
