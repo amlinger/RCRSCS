@@ -482,6 +482,7 @@ public class RCRSCSMessageConverter {
 			if (debug) {
 				System.out.println(res.size());
 			}
+			BaseMessageType tmp = null;
 			try {
 				if (bitList.size() <= offset + 7) {
 					break;
@@ -497,6 +498,7 @@ public class RCRSCSMessageConverter {
 				}
 				offset += this.messageKind;
 				mType = BaseMessageType.values()[mTypeValue];
+				tmp = mType;
 				if (bitList.size() < offset + this.messageMinimumBitSize(mType)) {
 					break;
 				}
@@ -628,7 +630,8 @@ public class RCRSCSMessageConverter {
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err
-						.println("This exception caused by message decoding step");
+						.println("This exception caused by message decoding step:"
+								+ tmp);
 				break;
 			}
 		}
@@ -958,7 +961,7 @@ public class RCRSCSMessageConverter {
 		List<Integer> res = new ArrayList<Integer>();
 		try {
 			List<EntityID> ids = (List<EntityID>) data.getData();
-			if (ids.size() > 0) {
+			if (ids.size() >= 0) {
 				res.add(ids.size());
 				switch (data.getType()) {
 				case ID_LIST:
@@ -976,7 +979,7 @@ public class RCRSCSMessageConverter {
 				}
 			}
 		} catch (Exception e) {
-			throw new Exception();
+			throw new Exception("EntityIDList needs at least 1 id...");
 		}
 		return res;
 	}
