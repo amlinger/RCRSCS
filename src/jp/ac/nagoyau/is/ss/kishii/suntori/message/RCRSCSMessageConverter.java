@@ -51,29 +51,29 @@ import rescuecore2.worldmodel.EntityID;
  * 
  */
 public class RCRSCSMessageConverter {
-	private List<EntityID> buildingList;
-	private List<EntityID> roadList;
-	private List<EntityID> refugeList;
-	private List<EntityID> areaList;
+	protected List<EntityID> buildingList;
+	protected List<EntityID> roadList;
+	protected List<EntityID> refugeList;
+	protected List<EntityID> areaList;
 
-	private List<EntityID> policeForceList;
-	private List<EntityID> ambulanceTeamList;
-	private List<EntityID> fireBrigadeList;
-	private List<EntityID> platoonAgentList;
+	protected List<EntityID> policeForceList;
+	protected List<EntityID> ambulanceTeamList;
+	protected List<EntityID> fireBrigadeList;
+	protected List<EntityID> platoonAgentList;
 
-	private List<EntityID> policeOfficeList;
-	private List<EntityID> fireStationList;
-	private List<EntityID> ambulanceCenterList;
+	protected List<EntityID> policeOfficeList;
+	protected List<EntityID> fireStationList;
+	protected List<EntityID> ambulanceCenterList;
 
-	private List<EntityID> centerList;
-	private List<EntityID> rescueList;
+	protected List<EntityID> centerList;
+	protected List<EntityID> rescueList;
 
-	private EntityID ownerID;
-	private DataType agentType;
+	protected EntityID ownerID;
+	protected DataType agentType;
 
-	private final int messageKind;
-	private EnumMap<DataType, Integer> dataBitSizeMap;
-	private EnumMap<BaseMessageType, Integer> messageMininumSizeMap;
+	protected final int messageKind;
+	protected EnumMap<DataType, Integer> dataBitSizeMap;
+	protected EnumMap<BaseMessageType, Integer> messageMininumSizeMap;
 
 	public final int EXTINGUISHABLE_POWER;
 	public final int EXTINGUISHABLE_DISTANCE;
@@ -83,7 +83,7 @@ public class RCRSCSMessageConverter {
 	public final int DAMAGE_PERCEPTION_LOS;
 	public final int RANGE_OF_VIEW;
 
-	private static final boolean debug = false;
+	protected static final boolean debug = false;
 
 	@Deprecated
 	public RCRSCSMessageConverter(EntityID ownerID, Config config,
@@ -215,7 +215,7 @@ public class RCRSCSMessageConverter {
 	 * Check type of agent that using this converter.<br>
 	 * (at, fb, pf, ac, fs, po)
 	 */
-	private void checkAgentType() {
+	protected void checkAgentType() {
 		this.agentType = DataType.HUMAN;
 		if (this.ambulanceTeamList.contains(this.ownerID)) {
 			this.agentType = DataType.AMBULANCE_TEAM;
@@ -239,7 +239,7 @@ public class RCRSCSMessageConverter {
 	 * @param se
 	 *            agent that using the converter.
 	 */
-	private void checkAgentType(StandardEntity se) {
+	protected void checkAgentType(StandardEntity se) {
 		this.agentType = DataType.HUMAN;
 		if (se instanceof AmbulanceTeam) {
 			this.agentType = DataType.AMBULANCE_TEAM;
@@ -259,7 +259,7 @@ public class RCRSCSMessageConverter {
 	/**
 	 * Return type of agent that have given EntityID.
 	 */
-	private DataType getAgentType(EntityID id) {
+	protected DataType getAgentType(EntityID id) {
 		DataType res = null;
 		if (this.ambulanceTeamList.contains(id)) {
 			res = DataType.AMBULANCE_TEAM;
@@ -284,7 +284,7 @@ public class RCRSCSMessageConverter {
 	 * @return if center : true<br>
 	 *         otherwise : false
 	 */
-	private boolean isCenter(EntityID id) {
+	protected boolean isCenter(EntityID id) {
 		return this.centerList.contains(id);
 	}
 
@@ -296,7 +296,7 @@ public class RCRSCSMessageConverter {
 	 * @return
 	 */
 	@SuppressWarnings("unused")
-	private boolean isPlatoon(EntityID id) {
+	protected boolean isPlatoon(EntityID id) {
 		return this.platoonAgentList.contains(id);
 	}
 
@@ -308,7 +308,7 @@ public class RCRSCSMessageConverter {
 	 * @param agent
 	 * @return
 	 */
-	private boolean isBelong(DataType center, DataType agent) {
+	protected boolean isBelong(DataType center, DataType agent) {
 		boolean res = false;
 		if (agent.equals(DataType.AMBULANCE_TEAM)
 				&& center.equals(DataType.AMBULANCE_CENTER)) {
@@ -326,7 +326,7 @@ public class RCRSCSMessageConverter {
 	/**
 	 * Calculate bit num of each message that is minimum configuration.
 	 */
-	private void initMessageMinimunSizeMap() {
+	protected void initMessageMinimunSizeMap() {
 		this.messageMininumSizeMap = new EnumMap<BaseMessageType, Integer>(
 				BaseMessageType.class);
 		for (BaseMessageType type : BaseMessageType.values()) {
@@ -341,7 +341,7 @@ public class RCRSCSMessageConverter {
 	 *            message type
 	 * @return bit num
 	 */
-	private int messageMinimumBitSize(BaseMessageType m) {
+	protected int messageMinimumBitSize(BaseMessageType m) {
 		int res = 0;
 		for (DataType dt : RCRSCSMessage.COMMON_DATA_TYPE) {
 			res += this.dataBitSizeMap.get(dt);
@@ -361,7 +361,7 @@ public class RCRSCSMessageConverter {
 	 * 
 	 * @param map
 	 */
-	private void initBitSizeMap(EnumMap<DataType, Integer> map) {
+	protected void initBitSizeMap(EnumMap<DataType, Integer> map) {
 		this.dataBitSizeMap = new EnumMap<DataType, Integer>(DataType.class);
 		// time
 		this.dataBitSizeMap.put(DataType.TIME, calculateBitSize(1000));
@@ -417,7 +417,7 @@ public class RCRSCSMessageConverter {
 	 * @param urn
 	 * @return (sorted)List of EntityID
 	 */
-	private List<EntityID> getIDList(StandardWorldModel model,
+	protected List<EntityID> getIDList(StandardWorldModel model,
 			EntityIDComparator comp, StandardEntityURN urn) {
 		return toIDList(model.getEntitiesOfType(urn), comp);
 	}
@@ -430,7 +430,7 @@ public class RCRSCSMessageConverter {
 	 * @param urns
 	 * @return (sorted)List of EntityID
 	 */
-	private List<EntityID> getIDList(StandardWorldModel model,
+	protected List<EntityID> getIDList(StandardWorldModel model,
 			EntityIDComparator comp, StandardEntityURN... urns) {
 		return toIDList(model.getEntitiesOfType(urns), comp);
 	}
@@ -442,7 +442,7 @@ public class RCRSCSMessageConverter {
 	 * @param comp
 	 * @return (sorted)List of EntityID
 	 */
-	private List<EntityID> toIDList(Collection<StandardEntity> col,
+	protected List<EntityID> toIDList(Collection<StandardEntity> col,
 			EntityIDComparator comp) {
 		List<EntityID> res = new ArrayList<EntityID>();
 		for (StandardEntity se : col) {
@@ -472,7 +472,7 @@ public class RCRSCSMessageConverter {
 	 * @param bitList
 	 * @return message list
 	 */
-	private List<RCRSCSMessage> bitToMessages(List<Integer> bitList) {
+	protected List<RCRSCSMessage> bitToMessages(List<Integer> bitList) {
 		List<RCRSCSMessage> res = new ArrayList<RCRSCSMessage>();
 		List<TaskMessage> taskList = new ArrayList<TaskMessage>();
 		if (debug) {
@@ -646,7 +646,7 @@ public class RCRSCSMessageConverter {
 		return res;
 	}
 
-	private int count = 0;
+	protected int count = 0;
 
 	/**
 	 * Filter the given task subject to the following conditions.<br>
@@ -658,7 +658,7 @@ public class RCRSCSMessageConverter {
 	 * @param taskList
 	 * @return
 	 */
-	private TaskMessage filteringTask(List<TaskMessage> taskList) {
+	protected TaskMessage filteringTask(List<TaskMessage> taskList) {
 		TaskMessage res = null;
 		DataType currentType = null;
 		for (TaskMessage task : taskList) {
@@ -697,7 +697,7 @@ public class RCRSCSMessageConverter {
 	 * @return executable : true<br>
 	 *         otherwise : false
 	 */
-	private boolean canExecute(TaskMessage task, DataType agentType) {
+	protected boolean canExecute(TaskMessage task, DataType agentType) {
 		boolean res = false;
 		if (task instanceof AmbulanceTeamTaskMessage
 				&& agentType.equals(DataType.AMBULANCE_TEAM)) {
@@ -717,7 +717,7 @@ public class RCRSCSMessageConverter {
 	 * 
 	 * @param messageData
 	 */
-	private void convertToRealData(RCRSCSData<?> messageData) {
+	protected void convertToRealData(RCRSCSData<?> messageData) {
 		if (messageData instanceof EntityIDListData) {
 			List<EntityID> ids = new ArrayList<EntityID>();
 			switch (messageData.getType()) {
@@ -826,7 +826,7 @@ public class RCRSCSMessageConverter {
 	 * @param bytes
 	 * @return
 	 */
-	private static List<Integer> toBit(byte[] bytes) {
+	protected static List<Integer> toBit(byte[] bytes) {
 		List<Integer> res = new ArrayList<Integer>();
 		for (byte b : bytes) {
 			res.addAll(toBit(b, 8));
@@ -864,12 +864,12 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * Convert bit list to bytes.<br>
-	 * This is private method used on converting.
+	 * This is protected method used on converting.
 	 * 
 	 * @param bitList
 	 * @return
 	 */
-	private byte[] getBytes(List<Integer> bitList) {
+	protected byte[] getBytes(List<Integer> bitList) {
 		int index = 0;
 		int offset = 7;
 		byte[] res = new byte[(bitList.size() - 1) / 8 + 1];
@@ -885,13 +885,13 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * Convert one message to bit list.<br>
-	 * This is private method used on converting.
+	 * This is protected method used on converting.
 	 * 
 	 * @param message
 	 *            converted message
 	 * @return bit list
 	 */
-	private List<Integer> messageToBit(RCRSCSMessage message) {
+	protected List<Integer> messageToBit(RCRSCSMessage message) {
 		List<Integer> res = new ArrayList<Integer>();
 		EnumMap<DataType, Integer> counter = new EnumMap<DataType, Integer>(
 				DataType.class);
@@ -933,13 +933,13 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * Convert value to bit list that have specified length.<br>
-	 * This is private method used on converting.
+	 * This is protected method used on converting.
 	 * 
 	 * @param value
 	 * @param length
 	 * @return
 	 */
-	private static List<Integer> toBit(int value, int length) {
+	protected static List<Integer> toBit(int value, int length) {
 		List<Integer> res = new ArrayList<Integer>();
 		for (int i = 0; i < length; i++) {
 			res.add((value >> i) & 0x01);
@@ -950,13 +950,13 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * Convert each EntityIDListData to bit list for transmission.<br>
-	 * This is private method used on converting.
+	 * This is protected method used on converting.
 	 * 
 	 * @param data
 	 * @return
 	 * @throws Exception
 	 */
-	private List<Integer> convertToMessageValue(EntityIDListData data)
+	protected List<Integer> convertToMessageValue(EntityIDListData data)
 			throws Exception {
 		List<Integer> res = new ArrayList<Integer>();
 		try {
@@ -987,13 +987,13 @@ public class RCRSCSMessageConverter {
 	/**
 	 * Convert each RCRSCSData(excepting EntityIDListData) to bit list for
 	 * transmission.<br>
-	 * This is private method used on converting.
+	 * This is protected method used on converting.
 	 * 
 	 * @param data
 	 * @return
 	 * @throws Exception
 	 */
-	private int convertToMessageValue(RCRSCSData<?> data) throws Exception {
+	protected int convertToMessageValue(RCRSCSData<?> data) throws Exception {
 		int res = -1;
 		try {
 			switch (data.getType()) {
@@ -1065,7 +1065,7 @@ public class RCRSCSMessageConverter {
 	}
 
 	/**
-	 * This is private method used on converting.
+	 * This is protected method used on converting.
 	 * 
 	 * @param map
 	 * @param dType
@@ -1086,12 +1086,12 @@ public class RCRSCSMessageConverter {
 
 	/**
 	 * Calculate bit num necessary for express value.<br>
-	 * This is private method used on converting.
+	 * This is protected method used on converting.
 	 * 
 	 * @param value
 	 * @return
 	 */
-	private int calculateBitSize(int value) {
+	protected int calculateBitSize(int value) {
 		int res = 0;
 		if (value == 1) {
 			res = 1;
