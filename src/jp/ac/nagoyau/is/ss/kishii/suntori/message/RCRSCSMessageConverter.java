@@ -619,14 +619,9 @@ public class RCRSCSMessageConverter {
 					RCRSCSData<?> messageData = message.getData(dt, i);
 					convertToRealData(messageData);
 				}
-				if (message instanceof TaskMessage) {
-					TaskMessage task = (TaskMessage) message;
-					if (task.getAssignedAgentID().equals(this.ownerID)) {
-						taskList.add(task);
-					}
-				} else {
-					res.add(message);
-				}
+			
+				res.add(message);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err
@@ -635,11 +630,7 @@ public class RCRSCSMessageConverter {
 				break;
 			}
 		}
-		// count = 0;
-		TaskMessage task = filteringTask(taskList);
-		if (task != null) {
-			res.add(task);
-		}
+
 		if (debug) {
 			System.out.println("-----------------------------------------");
 		}
