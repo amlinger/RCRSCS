@@ -20,10 +20,13 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.PositionInformatio
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.TransferInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.UnpassableInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.VictimInformation;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.report.DoneReportMessage;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.report.ExceptionReportMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveWithStagingPostTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.RestAtRefugeTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.RestTaskMessage;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.ScoutAreaTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.TaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.at.AmbulanceTeamTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.at.RescueAreaTaskMessage;
@@ -602,6 +605,18 @@ public class RCRSCSMessageConverter {
 					break;
 				case EXTINGUISH_AREA:
 					message = new ExtinguishAreaTaskMessage(bitList, offset,
+							this.dataBitSizeMap);
+					break;
+				case SCOUT_AREA:
+					message = new ScoutAreaTaskMessage(bitList, offset,
+							this.dataBitSizeMap);
+					break;
+				case DONE:
+					message = new DoneReportMessage(bitList, offset,
+							this.dataBitSizeMap);
+					break;
+				case EXCEPTION:
+					message = new ExceptionReportMessage(bitList, offset,
 							this.dataBitSizeMap);
 					break;
 				default:

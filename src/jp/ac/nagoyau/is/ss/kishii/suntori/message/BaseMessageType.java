@@ -147,7 +147,12 @@ public enum BaseMessageType {
 	 */
 	EXTINGUISH_AREA(new DataType[] { DataType.RESCUE_AGENT,
 			DataType.FIRE_BRIGADE, DataType.AREA_LIST }),
-
+	
+	/**
+	 * scout area task
+	 */
+	SCOUT_AREA(new DataType[] { DataType.RESCUE_AGENT,
+				DataType.PLATOON_AGENT, DataType.AREA_LIST }),
 	// Report Message
 	/**
 	 * report message that task was done
