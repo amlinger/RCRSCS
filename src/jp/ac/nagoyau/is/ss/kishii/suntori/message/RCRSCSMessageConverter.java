@@ -151,13 +151,15 @@ public class RCRSCSMessageConverter {
 		EntityIDComparator comp = new EntityIDComparator();
 		this.buildingList = getIDList(model, comp, StandardEntityURN.BUILDING,
 				StandardEntityURN.REFUGE, StandardEntityURN.AMBULANCE_CENTRE,
-				StandardEntityURN.FIRE_STATION, StandardEntityURN.POLICE_OFFICE);
+				StandardEntityURN.FIRE_STATION, StandardEntityURN.POLICE_OFFICE,
+				StandardEntityURN.GAS_STATION);
 		this.roadList = getIDList(model, comp, StandardEntityURN.ROAD);
 		this.refugeList = getIDList(model, comp, StandardEntityURN.REFUGE);
 		this.areaList = getIDList(model, comp, StandardEntityURN.ROAD,
 				StandardEntityURN.BUILDING, StandardEntityURN.AMBULANCE_CENTRE,
-				StandardEntityURN.FIRE_STATION,
-				StandardEntityURN.POLICE_OFFICE, StandardEntityURN.REFUGE);
+				StandardEntityURN.FIRE_STATION, StandardEntityURN.GAS_STATION,
+				StandardEntityURN.HYDRANT, StandardEntityURN.POLICE_OFFICE, 
+				StandardEntityURN.REFUGE);
 		this.policeForceList = getIDList(model, comp,
 				StandardEntityURN.POLICE_FORCE);
 		this.ambulanceTeamList = getIDList(model, comp,
