@@ -18,7 +18,7 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.FireBrigadeInforma
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.PoliceForceInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.PositionInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.TransferInformation;
-import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.UnpassableInformation;
+//import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.UnpassableInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.VictimInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.report.DoneReportMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.report.ExceptionReportMessage;
@@ -86,7 +86,7 @@ public class RCRSCSMessageConverter {
 	public final int DAMAGE_PERCEPTION_LOS;
 	public final int RANGE_OF_VIEW;
 
-	protected static final boolean debug = false;
+	protected static boolean debug = false;
 
 	@Deprecated
 	public RCRSCSMessageConverter(EntityID ownerID, Config config,
@@ -106,7 +106,7 @@ public class RCRSCSMessageConverter {
 		this.ambulanceTeamList = ambulanceTeamList;
 		this.fireBrigadeList = fireBrigadeList;
 		this.platoonAgentList = platoonAgentList;
-
+		
 		this.policeOfficeList = policeOfficeList;
 		this.ambulanceCenterList = ambulanceCenterList;
 		this.fireStationList = fireStationList;
@@ -144,7 +144,11 @@ public class RCRSCSMessageConverter {
 	 * 
 	 * @param ownerID
 	 *            EntityID of this converter user(Agent or Center).
-	 * @param model
+	 * @param m		System.out.println(this.areaList.size());
+		for (byte b : channelEncoded) {
+			System.out.print(b);
+		};
+		System.out.println();odel
 	 * @param config
 	 */
 	public RCRSCSMessageConverter(EntityID ownerID, StandardWorldModel model,
@@ -286,7 +290,11 @@ public class RCRSCSMessageConverter {
 	 * Return whether the agent that has given EntityID is center.
 	 * 
 	 * @param id
-	 * @return if center : true<br>
+	 * @return i		System.out.println(this.areaList.size());
+		for (byte b : channelEncoded) {
+			System.out.print(b);
+		};
+		System.out.println();f center : true<br>
 	 *         otherwise : false
 	 */
 	protected boolean isCenter(EntityID id) {
@@ -543,10 +551,10 @@ public class RCRSCSMessageConverter {
 					message = new AmbulanceTeamInformation(bitList, offset,
 							this.dataBitSizeMap);
 					break;
-				case UNPASSABLE:
-					message = new UnpassableInformation(bitList, offset,
-							this.dataBitSizeMap);
-					break;
+//				case UNPASSABLE:
+//					message = new UnpassableInformation(bitList, offset,
+//							this.dataBitSizeMap);
+//					break;
 				// case CLEAR_BLOCKADE_REQUEST:
 				// message = new ClearBlockadeRequest(bitList, offset,
 				// this.dataBitSizeMap);
@@ -620,7 +628,7 @@ public class RCRSCSMessageConverter {
 							this.dataBitSizeMap);
 					break;
 				default:
-					throw new Exception("undefined message type " + mType
+					throw new RuntimeException("undefined message type " + mType
 							+ "\n" + "decode was stopped on the way...");
 				}
 				offset += message.getMessageBitSize(this.dataBitSizeMap);
@@ -639,12 +647,11 @@ public class RCRSCSMessageConverter {
 			
 				res.add(message);
 				
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (RuntimeException e) {
 				System.err
 						.println("This exception caused by message decoding step:"
 								+ tmp);
-				break;
+				throw e;
 			}
 		}
 
