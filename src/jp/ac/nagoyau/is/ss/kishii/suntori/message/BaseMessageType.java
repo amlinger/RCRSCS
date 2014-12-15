@@ -161,8 +161,13 @@ public enum BaseMessageType {
 	/**
 	 * report message that task cannot be execute
 	 */
-	EXCEPTION(new DataType[] { DataType.PLATOON_AGENT });
+	EXCEPTION(new DataType[] { DataType.PLATOON_AGENT }),
 
+	ACTION_BURNING_BUILDINGS(new DataType[] { DataType.AREA_LIST }),
+	
+	BID_BURNING_BUILDINGS(new DataType[] { DataType.FIRE_BRIGADE, 
+			DataType.REPAIR_COST });
+	
 	DataType[] data;
 
 	private BaseMessageType(DataType[] data) {

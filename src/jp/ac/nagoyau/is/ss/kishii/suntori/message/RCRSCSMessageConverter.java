@@ -22,6 +22,7 @@ import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.TransferInformatio
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.information.VictimInformation;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.report.DoneReportMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.report.ExceptionReportMessage;
+import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.AuctionBurningBuildingTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.MoveWithStagingPostTaskMessage;
 import jp.ac.nagoyau.is.ss.kishii.suntori.message.task.RestAtRefugeTaskMessage;
@@ -625,6 +626,14 @@ public class RCRSCSMessageConverter {
 					break;
 				case EXCEPTION:
 					message = new ExceptionReportMessage(bitList, offset,
+							this.dataBitSizeMap);
+					break;
+				case ACTION_BURNING_BUILDINGS:
+					message = new AuctionBurningBuildingTaskMessage(bitList, offset,
+							this.dataBitSizeMap);
+					break;
+				case BID_BURNING_BUILDINGS:
+					message = new BidBurningBuildingTaskMessage(bitList, offset,
 							this.dataBitSizeMap);
 					break;
 				default:
