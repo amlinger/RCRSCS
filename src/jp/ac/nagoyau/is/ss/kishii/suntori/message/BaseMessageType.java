@@ -163,7 +163,7 @@ public enum BaseMessageType {
 	 */
 	EXCEPTION(new DataType[] { DataType.PLATOON_AGENT }),
 
-	ACTION_BURNING_BUILDINGS(new DataType[] { DataType.AREA_LIST }),
+	ACTION_BURNING_BUILDINGS(new DataType[] {  DataType.RESCUE_AGENT, DataType.AREA_LIST }),
 	
 	BID_BURNING_BUILDINGS(new DataType[] { DataType.FIRE_BRIGADE, 
 			DataType.REPAIR_COST });
