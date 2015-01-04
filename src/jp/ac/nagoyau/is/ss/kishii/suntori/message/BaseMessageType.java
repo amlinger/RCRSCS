@@ -166,7 +166,7 @@ public enum BaseMessageType {
 	ACTION_BURNING_BUILDINGS(new DataType[] {  DataType.RESCUE_AGENT, DataType.AREA_LIST }),
 	
 	BID_BURNING_BUILDINGS(new DataType[] { DataType.FIRE_BRIGADE, 
-			DataType.REPAIR_COST });
+			DataType.REPAIR_COST, DataType.AREA_LIST });
 	
 	DataType[] data;
 
