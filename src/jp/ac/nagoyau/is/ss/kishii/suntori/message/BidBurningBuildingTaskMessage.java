@@ -23,6 +23,15 @@ public class BidBurningBuildingTaskMessage extends TaskMessage {
 		super(BaseMessageType.BID_BURNING_BUILDINGS, bitList, offset, bitSizeMap);
 	}
 
+	/**
+	 * Return list of EntityID of areas that are target of scout
+	 * 
+	 * @return 
+	 *         List of fire fight targets({@literal List<EntityID>})
+	 */
+	public List<EntityID> getBidAreaList() {
+		return super.getEntityIDList(DataType.AREA_LIST, 0);
+	}	
 	
 	public int getCost() {
 		return super.getRepairCost(0);
